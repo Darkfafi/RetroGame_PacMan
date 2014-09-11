@@ -87,7 +87,7 @@ package
 		
 		public function update(e:Event):void 
 		{
-			//this.x%tile == 0
+			//this.x%tile == 0  <-- goed idee Ramses! Dit moet je zeker weten later gebruiken om hem later te laten bewegen in bochten zonder dat pac-man zichzelf van kant maakt. <3
 			if (left && hitTestAlert() == false){
 				this.x -= tile * speed;
 			}
