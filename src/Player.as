@@ -103,7 +103,6 @@ package
 		
 		private function moveDir():void {
 			
-			for (var i : uint = 0; i < walls.length; i++) {
 				if (left && this.y%16 == 0) {
 						/*up = false;
 						left = true;
@@ -111,7 +110,7 @@ package
 						down = false;*/
 						direction = 1;
 				}
-				if (up && walls[i].x && this.x%16 == 0) {
+				if (up && this.x%16 == 0) {
 						/*up = true;
 						left = false;
 						right = false;
@@ -132,7 +131,6 @@ package
 						down = true;*/
 						direction = 4;
 				}
-			}
 		}
 		
 		private function hitTestAlert():Boolean {
