@@ -49,55 +49,83 @@ package
 			removeEventListener(Event.ADDED_TO_STAGE, init);
 			
 			stage.addEventListener(KeyboardEvent.KEY_DOWN, keyDown);
-			stage.addEventListener(KeyboardEvent.KEY_UP, keyUp);
-			
 		}
 		
 		private function keyDown(e:KeyboardEvent):void 
 		{
 			if (e.keyCode == 37) {
-				left = true;
+				/*left = true;
 				up = false;
 				right = false;
-				down = false;
+				down = false;*/
+				direction = 1;
 			}
 			else if (e.keyCode == 38) {
-				up = true;
+				/*up = true;
 				left = false;
 				right = false;
-				down = false;
+				down = false;*/
+				direction = 2;
 			}else if (e.keyCode == 39) {
-				right = true;
+				/*right = true;
 				left = false;
 				up = false;
-				down = false;
+				down = false;*/
+				direction = 3;
 				
 			}else if (e.keyCode == 40) {
-				left = false;
+				/*left = false;
 				up = false;
 				right = false;
-				down = true;
+				down = true;*/
+				direction = 4;
 			}
-		}
-		
-		private function keyUp(e:KeyboardEvent):void 
-		{
-			
 		}
 		
 		public function update(e:Event):void 
 		{
+			moveDir();
 			//this.x%tile == 0  <-- goed idee Ramses! Dit moet je zeker weten later gebruiken om hem later te laten bewegen in bochten zonder dat pac-man zichzelf van kant maakt. <3
 			if (left && hitTestAlert() == false){
 				this.x -= tile * speed;
 			}
 			if (up && hitTestAlert() == false) {
 				this.y -= tile * speed;
-			}if (right && hitTestAlert() == false) {
+			}
+			if (right && hitTestAlert() == false) {
 				this.x += tile * speed;
-			}if (down && hitTestAlert() == false) {
+			}
+			if (down && hitTestAlert() == false) {
 				this.y += tile * speed;
 			}
+		}
+		
+		private function moveDir():void {
+			
+			for (var i : uint = 0; i < walls.length; i++) {
+				if (direction == 1 && walls[i].x != this.x - tile && walls[i].y == this.y) {
+						up = false;
+						left = true;
+						right = false;
+						down = false;
+				}else if (direction == 2 && walls[i].y != this.y - tile && walls[i].x == this.x) {
+						up = true;
+						left = false;
+						right = false;
+						down = false;
+				}else if (direction == 3 && walls[i].x != this.x + tile && walls[i].y == this.y) {
+						right = true;
+						left = false;
+						up = false;
+						down = false;
+				}else if (direction == 4 && walls[i].y != this.y + tile && walls[i].x == this.x) {
+						left = false;
+						up = false;
+						right = false;
+						down = true;
+				}
+			}
+			
 		}
 		
 		private function hitTestAlert():Boolean {
