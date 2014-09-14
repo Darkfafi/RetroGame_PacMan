@@ -33,6 +33,7 @@ package
 			
 			tile = new Number(tileSystem.tileWidth);
 			walls = tileSystem.worldObPosition(1);
+			
 			trace(walls);
 			
 			posX = _posx;
@@ -65,43 +66,46 @@ package
 		
 		public function update(e:Event):void 
 		{
-			trace(direction);
+			//trace(direction);
 			//this.x%tile == 0  <-- goed idee Ramses! Dit moet je zeker weten later gebruiken om hem later te laten bewegen in bochten zonder dat pac-man zichzelf van kant maakt. <3
-			if (direction == 1 && hitTestAlert(direction) == false){
-				this.x -= tile * speed;
-			}
-			if (direction == 2 && hitTestAlert(direction) == false) {
-				this.y -= tile * speed;
-			}
-			if (direction == 3 && hitTestAlert(direction) == false) {
-				this.x += tile * speed;
-			}
-			if (direction == 4 && hitTestAlert(direction) == false) {
-				this.y += tile * speed;
+			if(hitTestAlert(direction) == false){
+				if (direction == 1){
+					this.x -= tile * speed;
+				}
+				if (direction == 2) {
+					this.y -= tile * speed;
+				}
+				if (direction == 3) {
+					this.x += tile * speed;
+				}
+				if (direction == 4) {
+					this.y += tile * speed;
+				}
 			}
 			moveDir();
 		}
 		
 		private function moveDir():void {
-				
-			if(this.x%16 == 0){
-				if (preDirection == 2 && hitTestAlert(preDirection) == false) {
-					//up
-					direction = 2;
-				}
-				if (preDirection == 4 && hitTestAlert(preDirection) == false) {
-					//down
-					direction = 4;
-				}
-			}if (this.y % 16 == 0) {
-					
-				if (preDirection == 3 && hitTestAlert(preDirection) == false) {
-					//right
-					direction = 3
-				}
-				if (preDirection == 1 && hitTestAlert(preDirection) == false) {
-					//left
-					direction = 1;
+			if(hitTestAlert(preDirection) == false){
+				if(this.x%16 == 0){
+					if (preDirection == 2) {
+						//up
+						direction = 2;
+					}
+					if (preDirection == 4) {
+						//down
+						direction = 4;
+					}
+				}if (this.y % 16 == 0) {
+						
+					if (preDirection == 3) {
+						//right
+						direction = 3
+					}
+					if (preDirection == 1) {
+						//left
+						direction = 1;
+					}
 				}
 			}
 		}
