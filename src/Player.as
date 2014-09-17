@@ -2,6 +2,7 @@ package
 {
 	import Assets.Packman;
 	import Assets.Wall;
+	import Events.CookieEvent;
 	import flash.display.MovieClip;
 	import flash.display.Sprite;
 	import flash.events.Event;
@@ -25,7 +26,11 @@ package
 		public var posX : Number;
 		public var posY : Number;
 		
-		private var speed : Number = new Number(0.25);
+		private var speed : Number = 0.25;
+		
+		//cookies
+		private var cookies : Array;
+		public static const EAT_COOKIE : String = "eatCookie";
 		
 		public function Player(_posx : Number, _posy : Number) 
 		{
@@ -33,6 +38,7 @@ package
 			
 			tile = new Number(tileSystem.tileWidth);
 			walls = tileSystem.worldObPosition(1);
+			cookies = TileSystem.cookies;
 			
 			trace(walls);
 			
@@ -66,8 +72,26 @@ package
 		
 		public function update(e:Event):void 
 		{
-			//trace(direction);
-			//this.x%tile == 0  <-- goed idee Ramses! Dit moet je zeker weten later gebruiken om hem later te laten bewegen in bochten zonder dat pac-man zichzelf van kant maakt. <3
+			//this.x%tile == 0  <-- goed idee Ramses! Dit moet je zeker weten later gebruiken om hem later te laten bewegen in bochten zonder dat pac-man zichzelf van kant maakt. <3	
+			movement();
+			/*
+			if (this.x < 0 - this.width) {
+				this.x = stage.stageWidth;
+			}else if (this.x > stage.stageWidth) {
+				this.x = 0 - this.width;
+			}*/
+			
+			for (var i : int = 0; i < cookies.length; i++) {
+				if (this.hitTestObject(cookies[i])) {
+					var c : CookieEvent = new CookieEvent(Player.EAT_COOKIE,true);
+					c.i = i;
+					dispatchEvent(c);
+				}
+				
+			}
+		}
+		private function movement():void {
+			
 			if(hitTestAlert(direction) == false){
 				if (direction == 1){
 					this.x -= tile * speed;
@@ -84,7 +108,6 @@ package
 			}
 			moveDir();
 		}
-		
 		private function moveDir():void {
 			if(hitTestAlert(preDirection) == false){
 				if(this.x%16 == 0){
