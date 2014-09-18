@@ -74,12 +74,12 @@ package
 		{
 			//this.x%tile == 0  <-- goed idee Ramses! Dit moet je zeker weten later gebruiken om hem later te laten bewegen in bochten zonder dat pac-man zichzelf van kant maakt. <3	
 			movement();
-			/*
-			if (this.x < 0 - this.width) {
-				this.x = stage.stageWidth;
-			}else if (this.x > stage.stageWidth) {
-				this.x = 0 - this.width;
-			}*/
+			
+			if (this.x <= 0 - this.width/3) {
+				this.x = stage.stageWidth - this.width/2;
+			}else if (this.x >= stage.stageWidth - this.width/3) {
+				this.x = 0 - this.width/2;
+			}
 			
 			for (var i : int = 0; i < cookies.length; i++) {
 				if (this.hitTestObject(cookies[i])) {
