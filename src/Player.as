@@ -1,6 +1,6 @@
 package  
 {
-	import Assets.Packman;
+	import Assets.PackmanCore;
 	import Assets.Wall;
 	import Events.CookieEvent;
 	import flash.display.MovieClip;
@@ -13,7 +13,11 @@ package
 	 */
 	public class Player extends Sprite
 	{
-		private var art : Sprite = new Packman();
+		private var core : Sprite = new PackmanCore(); //hitbox
+		
+		private var art : MovieClip = new PacManWalk(); //visual art <3
+		private var art_playing : Boolean = false;
+		
 		private var tileSystem : TileSystem = new TileSystem();
 		
 		//movement
@@ -34,7 +38,15 @@ package
 		
 		public function Player(_posx : Number, _posy : Number) 
 		{
+			addChild(core); // core = hitbox pacman
+			core.visible = false;
+			
 			addChild(art);
+			art.stop();
+			art.x = 8;
+			art.y = 8;
+			art.scaleX = 0.7;
+			art.scaleY = 0.7;
 			
 			tile = new Number(tileSystem.tileWidth);
 			walls = tileSystem.worldObPosition(1);
@@ -75,24 +87,29 @@ package
 			//this.x%tile == 0  <-- goed idee Ramses! Dit moet je zeker weten later gebruiken om hem later te laten bewegen in bochten zonder dat pac-man zichzelf van kant maakt. <3	
 			movement();
 			
+			//teleport sides of stage
 			if (this.x <= 0 - this.width/3) {
 				this.x = stage.stageWidth - this.width/2;
 			}else if (this.x >= stage.stageWidth - this.width/3) {
 				this.x = 0 - this.width/2;
 			}
 			
+			// If you touch a cookie. Then eat it <3
 			for (var i : int = 0; i < cookies.length; i++) {
-				if (this.hitTestObject(cookies[i])) {
+				if (core.hitTestObject(cookies[i])) {
 					var c : CookieEvent = new CookieEvent(Player.EAT_COOKIE,true);
 					c.i = i;
 					dispatchEvent(c);
 				}
-				
 			}
 		}
 		private function movement():void {
 			
-			if(hitTestAlert(direction) == false){
+			if (hitTestAlert(direction) == false) {
+				if (art_playing == false && direction != 0) {
+					art_playing = true;
+					art.play();
+				}
 				if (direction == 1){
 					this.x -= tile * speed;
 				}
@@ -105,29 +122,36 @@ package
 				if (direction == 4) {
 					this.y += tile * speed;
 				}
-			}
+			}else { art.stop(); art_playing = false;}
 			moveDir();
 		}
+		
+		//voor rotatie bereken vanaf links boven van pacman waar hij word geplaatst
 		private function moveDir():void {
-			if(hitTestAlert(preDirection) == false){
-				if(this.x%16 == 0){
-					if (preDirection == 2) {
-						//up
-						direction = 2;
-					}
-					if (preDirection == 4) {
-						//down
-						direction = 4;
-					}
-				}if (this.y % 16 == 0) {
-						
-					if (preDirection == 3) {
-						//right
-						direction = 3
-					}
-					if (preDirection == 1) {
-						//left
-						direction = 1;
+			if (hitTestAlert(preDirection) == false) {
+				if(preDirection != direction){
+					if (this.x % 16 == 0) {
+						if (preDirection == 2) {
+							//up
+							art.rotation = 270;
+							direction = 2;
+						}
+						if (preDirection == 4) {
+							//down
+							art.rotation = 90;
+							direction = 4
+						}
+					}if (this.y % 16 == 0) {
+						if (preDirection == 3) {
+							//right
+							art.rotation = 0;
+							direction = 3
+						}
+						if (preDirection == 1) {
+							//left
+							art.rotation = 180;
+							direction = 1;
+						}
 					}
 				}
 			}

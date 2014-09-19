@@ -75,7 +75,8 @@ package
 		private function removeCookie(c:CookieEvent):void 
 		{
 			removeChild(cookies[c.i]);
-			cookies.splice(c.i,1);
+			cookies.splice(c.i, 1);
+			//add score and add if cookies array == 0 then end game.
 		}
 		
 		private function init(e:Event):void 

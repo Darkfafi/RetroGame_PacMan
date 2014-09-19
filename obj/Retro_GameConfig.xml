@@ -16,7 +16,7 @@
     </define>
     <define append="true">
       <name>CONFIG::timeStamp</name>
-      <value>'18-9-2014'</value>
+      <value>'19-9-2014'</value>
     </define>
     <define append="true">
       <name>CONFIG::air</name>
@@ -35,6 +35,9 @@
       <path-element>C:\Users\Darkfafi\Desktop\Mediacollege Amsterdam\LeerJaar2\Fase1\GapErwin\RetroGame\Retro_Game\src</path-element>
       <path-element>C:\Program Files (x86)\FlashDevelop\Library\AS3\classes</path-element>
     </source-path>
+    <library-path append="true">
+      <path-element>C:\Users\Darkfafi\Desktop\Mediacollege Amsterdam\LeerJaar2\Fase1\GapErwin\RetroGame\Retro_Game\src\Assets\pacmanArt.swc</path-element>
+    </library-path>
   </compiler>
   <file-specs>
     <path-element>C:\Users\Darkfafi\Desktop\Mediacollege Amsterdam\LeerJaar2\Fase1\GapErwin\RetroGame\Retro_Game\src\Main.as</path-element>
