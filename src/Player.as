@@ -40,13 +40,12 @@ package
 		{
 			addChild(core); // core = hitbox pacman
 			core.visible = false;
-			
 			addChild(art);
 			art.stop();
 			art.x = 8;
 			art.y = 8;
-			art.scaleX = 0.7;
-			art.scaleY = 0.7;
+			art.scaleX = 0.75;
+			art.scaleY = 0.75;
 			
 			tile = new Number(tileSystem.tileWidth);
 			walls = tileSystem.worldObPosition(1);
@@ -56,7 +55,6 @@ package
 			
 			posX = _posx;
 			posY = _posy;
-			
 			addEventListener(Event.ADDED_TO_STAGE, init);
 		}
 		
@@ -86,14 +84,11 @@ package
 		{
 			//this.x%tile == 0  <-- goed idee Ramses! Dit moet je zeker weten later gebruiken om hem later te laten bewegen in bochten zonder dat pac-man zichzelf van kant maakt. <3	
 			movement();
-			
-			//teleport sides of stage
-			if (this.x <= 0 - this.width/3) {
-				this.x = stage.stageWidth - this.width/2;
-			}else if (this.x >= stage.stageWidth - this.width/3) {
-				this.x = 0 - this.width/2;
-			}
-			
+			eatCookie();
+		}
+		
+		private function eatCookie():void 
+		{
 			// If you touch a cookie. Then eat it <3
 			for (var i : int = 0; i < cookies.length; i++) {
 				if (core.hitTestObject(cookies[i])) {
@@ -104,6 +99,14 @@ package
 			}
 		}
 		private function movement():void {
+			
+			//teleport sides of stage
+			if (this.x < 0 - core.width /2 && direction == 1) {
+				this.x = tile * 28;
+			}
+			if (this.x > stage.stageWidth - core.width / 3 && direction == 3) {
+				this.x = 0 - tile;
+			}
 			
 			if (hitTestAlert(direction) == false) {
 				if (art_playing == false && direction != 0) {
@@ -122,7 +125,7 @@ package
 				if (direction == 4) {
 					this.y += tile * speed;
 				}
-			}else { art.stop(); art_playing = false;}
+			}else { art.gotoAndStop(5); art_playing = false;}
 			moveDir();
 		}
 		

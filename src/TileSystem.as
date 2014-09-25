@@ -30,7 +30,7 @@ package
 			[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 			
 			[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-			[1, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 1],
+			[1, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 1, 1, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 1],
 			[1, 3, 1, 1, 1, 1, 3, 1, 1, 1, 1, 1, 3, 1, 1, 3, 1, 1, 1, 1, 1, 3, 1, 1, 1, 1, 3, 1],
 			[1, 0, 1, 1, 1, 1, 3, 1, 1, 1, 1, 1, 3, 1, 1, 3, 1, 1, 1, 1, 1, 3, 1, 1, 1, 1, 0, 1],
 			[1, 3, 1, 1, 1, 1, 3, 1, 1, 1, 1, 1, 3, 1, 1, 3, 1, 1, 1, 1, 1, 3, 1, 1, 1, 1, 3, 1],
@@ -83,6 +83,9 @@ package
 		{
 			removeEventListener(Event.ADDED_TO_STAGE, init);
 			
+			var background : Background = new Background();
+			addChild(background);
+			background.y = tileHight * 3
 			var lYRows : int = tileWorld.length;
 			for (var i : int = 0; i < lYRows; i++) {
 				
@@ -101,11 +104,12 @@ package
 						object.x = j * 16;
 						object.y = i * 16;
 						addChildAt(object, 1);
+						object.visible = false;
 						
 					}else if (tileWorld[i][j] == 2) {
 						
 						player = new Player(j * tileWidth, i * tileHight);
-						player.x = j * 16;
+						player.x = j * 16 - tileWidth / 2;;
 						player.y = i * 16;
 						addChild(player);
 						
@@ -114,7 +118,7 @@ package
 						object = new Cookie();
 						object.x = j * 16;
 						object.y = i * 16;
-						addChildAt(object,1);
+						addChild(object);
 						cookies.push(object);
 					}
 					
