@@ -85,7 +85,7 @@ package
 			removeEventListener(Event.ADDED_TO_STAGE, init);
 			
 			var background : Background = new Background();
-			//addChild(background);
+			addChild(background);
 			background.y = tileHight * 3
 			var lYRows : int = tileWorld.length;
 			for (var i : int = 0; i < lYRows; i++) {
@@ -105,7 +105,7 @@ package
 						object.x = j * 16;
 						object.y = i * 16;
 						addChildAt(object, 1);
-						//object.visible = false;
+						object.visible = false;
 						
 					}else if (tileWorld[i][j] == 3) {
 						

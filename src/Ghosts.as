@@ -19,8 +19,8 @@ package
 		protected var tileSystem : TileSystem = new TileSystem();
 		
 		//movement
-		//protected var preDirection : int = 0;
-		protected var direction : int = 1;
+		protected var preDirection : int = 0;
+		protected var direction : int = 0;
 		
 		protected var tile : Number;
 		
@@ -29,6 +29,7 @@ package
 		protected var pacmanPos : Point = new Point();
 		protected var target : Point = null;
 		
+		protected var preMovement : Point = new Point();
 		protected var movement : Point = new Point();
 		protected var speed : Number = 0.25;
 		
@@ -49,19 +50,18 @@ package
 			
 			if (target != null) {
 				targetPinpoint();
-				
 			}else { target = pacmanPos; }
 			
 			movementGhost();
 		}
 		
 		protected function movementGhost() : void {
-			if(movement.x != 0){
+			if (hitTestAlert(direction) == false) {
+				//if following the player
 				this.x += movement.x * tile * speed;
-			}
-			if(movement.y != 0){
 				this.y += movement.y * tile * speed;
-			}
+				//else if running from player
+				}
 		}
 		
 		protected function targetPinpoint() : void { //checktlocatie
@@ -69,28 +69,44 @@ package
 			var dif : Point = new Point(target.x - this.x, target.y - this.y);
 			//trace(Math.abs(dif.x));
 			
-			if(hitTestAlert() == false){
-				if (dif.x != 0) {
+			if (dif.x != 0) {	
+				preMovement.x = Math.abs(dif.x) / dif.x;
+				if (preMovement.x == -1) {
+					preDirection = 1;
+				}else if (preMovement.x == 1) {
+					preDirection = 3;
+				}
 					
-					movement.x = Math.abs(dif.x) / dif.x;
-					if(this.y%tile == 0){
-						movement.y = 0;
+			}else if (dif.y != 0) {
+					
+				preMovement.y = Math.abs(dif.y) / dif.y;
+				if (preMovement.y == -1) {
+					preDirection = 2;
+				}else if (preMovement.y == 1) {
+					preDirection = 4;
+				}
+			}
+			moveDir();
+		}
+		
+		private function moveDir():void {
+			if (hitTestAlert(preDirection) == false) {
+				if (preDirection != direction) {
+					if (preDirection == 1 || preDirection == 3) {
+						if(this.y % 16 == 0){
+							direction = preDirection;
+							movement.x = preMovement.x;
+							movement.y = 0;
+						}
 					}
-					
-				}else if (dif.y != 0) {
-					
-					movement.y = Math.abs(dif.y) / dif.y;
-					if(this.x%tile == 0){
-						movement.x = 0;
+					if (preDirection == 2 || preDirection == 4) {
+						if(this.x % 16 == 0){
+							direction = preDirection;
+							movement.y = preMovement.y;
+							movement.x = 0;
+						}
 					}
 				}
-			}else {
-				movement.x = 0;
-				movement.y = 0;
-				if (target == pacmanPos) {
-					//pak dicht bij zijnste checkPoint
-					
-				}else { target == pacmanPos; }	
 			}
 		}
 		
@@ -99,24 +115,25 @@ package
 			
 		}
 		
-		protected function hitTestAlert():Boolean {
+		protected function hitTestAlert(dir : int):Boolean {
 			for (var i : uint = 0; i < walls.length; i++) {
-				if (movement.x == -1) {
+				if (dir == 1) {
 					if (walls[i].x == this.x - tile && walls[i].y == this.y) {
 						return true;
+						trace("oii");
 						break;
 					}
-				}else if (movement.y == -1) {
+				}else if (dir == 2) {
 					if (walls[i].y == this.y - tile && walls[i].x == this.x) {
 						return true;
 						break;
 					}
-				}else if (movement.x == 1) {
+				}else if (dir == 3) {
 					if (walls[i].x == this.x + tile && walls[i].y == this.y) {
 						return true;
 						break;
 					}
-				}else if (movement.y == 1) {
+				}else if (dir == 4) {
 					if (walls[i].y == this.y + tile && walls[i].x == this.x) {
 						return true;
 						break;
