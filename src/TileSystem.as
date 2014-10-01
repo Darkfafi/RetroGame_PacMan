@@ -20,7 +20,8 @@ package
 		
 		public static var cookies : Array = [];
 		
-		public var player : Player;
+		public static var player : Player;
+		public var ghosts : Array  = [];
 		
 		private var tileWorld : Array = 
 		[
@@ -40,7 +41,7 @@ package
 			[1, 3, 3, 3, 3, 3, 3, 1, 1, 3, 3, 3, 3, 1, 1, 3, 3, 3, 3, 1, 1, 3, 3, 3, 3, 3, 3, 1],
 			[1, 1, 1, 1, 1, 1, 3, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 3, 1, 1, 1, 1, 1, 1],
 			[0, 0, 0, 0, 0, 1, 3, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 3, 1, 0, 0, 0, 0, 0],
-			[0, 0, 0, 0, 0, 1, 3, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 3, 1, 0, 0, 0, 0, 0],
+			[0, 0, 0, 0, 0, 1, 3, 1, 1, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 1, 1, 3, 1, 0, 0, 0, 0, 0],
 			[0, 0, 0, 0, 0, 1, 3, 1, 1, 0, 1, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 3, 1, 0, 0, 0, 0, 0],
 			[1, 1, 1, 1, 1, 1, 3, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 3, 1, 1, 1, 1, 1, 1],
 			[0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0],
@@ -84,7 +85,7 @@ package
 			removeEventListener(Event.ADDED_TO_STAGE, init);
 			
 			var background : Background = new Background();
-			addChild(background);
+			//addChild(background);
 			background.y = tileHight * 3
 			var lYRows : int = tileWorld.length;
 			for (var i : int = 0; i < lYRows; i++) {
@@ -104,14 +105,7 @@ package
 						object.x = j * 16;
 						object.y = i * 16;
 						addChildAt(object, 1);
-						object.visible = false;
-						
-					}else if (tileWorld[i][j] == 2) {
-						
-						player = new Player(j * tileWidth, i * tileHight);
-						player.x = j * 16 - tileWidth / 2;;
-						player.y = i * 16;
-						addChild(player);
+						//object.visible = false;
 						
 					}else if (tileWorld[i][j] == 3) {
 						
@@ -121,10 +115,23 @@ package
 						addChild(object);
 						cookies.push(object);
 					}
-					
+					else if (tileWorld[i][j] == 2) {
+						
+						player = new Player(j * tileWidth, i * tileHight);
+						player.x = j * 16 - tileWidth / 2;
+						player.y = i * 16;
+						addChild(player);
+						
+					}else if (tileWorld[i][j] == 4) {
+						
+						object = new Ghosts();
+						object.x = j * 16 - tileWidth / 2;
+						object.y = i * 16;
+						addChild(object);
+						ghosts.push(object);
+					}
 				}
 			}
-			
 		}
 		public function worldObPosition(n : int) : Array {
 			
@@ -145,7 +152,7 @@ package
 					}
 				}
 			}
-			trace(result);
+			//trace(result);
 			return result;
 		}
 	}

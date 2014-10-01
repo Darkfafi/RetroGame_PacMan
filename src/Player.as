@@ -27,8 +27,8 @@ package
 		private var tile : Number;
 		private var walls : Array;
 		
-		public var posX : Number;
-		public var posY : Number;
+		//public var posX : Number;
+		//public var posY : Number;
 		
 		private var speed : Number = 0.25;
 		
@@ -51,10 +51,8 @@ package
 			walls = tileSystem.worldObPosition(1);
 			cookies = TileSystem.cookies;
 			
-			trace(walls);
-			
-			posX = _posx;
-			posY = _posy;
+			//posX = _posx;
+			//posY = _posy;
 			addEventListener(Event.ADDED_TO_STAGE, init);
 		}
 		
