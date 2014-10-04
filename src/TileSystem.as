@@ -117,7 +117,7 @@ package
 					}
 					else if (tileWorld[i][j] == 2) {
 						
-						player = new Player(j * tileWidth, i * tileHight);
+						player = new Player();
 						player.x = j * 16 - tileWidth / 2;
 						player.y = i * 16;
 						addChild(player);

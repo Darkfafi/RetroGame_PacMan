@@ -36,6 +36,9 @@ package Levels
 				timerCountdown.reset();
 				timerCountdown.stop();
 				gameRunning = true;
+				for (var i : uint = 0; i < tileSystem.ghosts.length; i++) {
+					tileSystem.ghosts[i].targetPacman();
+				}
 				break;	
 			}
 		}
@@ -45,7 +48,6 @@ package Levels
 			if(gameRunning){
 				TileSystem.player.update(e);
 				for (var i : uint = 0; i < tileSystem.ghosts.length; i++) {
-					
 					tileSystem.ghosts[i].update(e);
 				}
 			}

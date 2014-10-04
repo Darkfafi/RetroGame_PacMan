@@ -1,6 +1,5 @@
 package  
 {
-	import Assets.PackmanCore;
 	import flash.display.MovieClip;
 	import flash.display.Sprite;
 	import flash.events.Event;
@@ -9,139 +8,75 @@ package
 	 * ...
 	 * @author Ramses di Perna
 	 */
-	public class Ghosts extends Sprite
+	public class Ghosts extends MovingObject
 	{
-		protected var core : Sprite = new PackmanCore(); //hitbox
-		
-		//protected var art : MovieClip = new PacManWalk(); //visual art <3
-		//protected var art_playing : Boolean = false;
-		
-		protected var tileSystem : TileSystem = new TileSystem();
-		
-		//movement
-		protected var preDirection : int = 0;
-		protected var direction : int = 0;
-		
-		protected var tile : Number;
-		
-		protected var walls : Array = [];
-		protected var checkPoints : Array = [];
-		protected var pacmanPos : Point = new Point();
+		//speed = speed * Math.abs(dif.x) / dif.x <---- gebruiken voor links of rechts movement
+		protected var followingPlayer : Boolean = false; //als hij vast loopt gaat hij een pad volgen en dan als hij de speler niet volgt en weer vast loopt volgt hij de speler weer.
 		protected var target : Point = null;
+		protected var currentTask : int = 0;
 		
-		protected var preMovement : Point = new Point();
-		protected var movement : Point = new Point();
-		protected var speed : Number = 0.25;
-		
-		public function Ghosts() 
+		protected override function init(e:Event):void 
 		{
-			walls = tileSystem.worldObPosition(1);
-			//checkPoints = tileSystem.worldObPosition(5);
+			removeEventListener(Event.ADDED_TO_STAGE, init);
 			
-			tile = new Number(tileSystem.tileWidth);
+			var ghostArt : MovieClip = new PacManWalk();
 			
-			addChild(core);
+			drawObject(ghostArt);
 		}
 		
-		public function update(e : Event) : void {
+		public function targetPacman() : void {
 			
-			pacmanPos.x = TileSystem.player.x;
-			pacmanPos.y = TileSystem.player.y;
-			
-			if (target != null) {
-				targetPinpoint();
-			}else { target = pacmanPos; }
-			
-			movementGhost();
+			target = getPlayerLocation();
 		}
 		
-		protected function movementGhost() : void {
-			if (hitTestAlert(direction) == false) {
-				//if following the player
-				this.x += movement.x * tile * speed;
-				this.y += movement.y * tile * speed;
-				//else if running from player
+		public override function update(e : Event) :void {
+			
+			super.update(e);
+			ghostTask();
+		}
+		
+		protected function ghostTask():void {
+			
+			//elke geest heeft een andere taak. hier word zijn taak gekozen en uitgevoert. Voor test word hier de Chase task in opgeroepen.
+			//if not running
+			chasePacman();
+			//else
+		}
+		
+		private function chasePacman():void {
+			
+			targetPacman(); // <-- wou ik nog anders doen
+			
+			var dif : Point;
+			var choseDir : int = 0;
+			
+			if(target != null){
+				dif = new Point(target.x - this.x, target.y - this.y);
+			}
+			if (dif.x != 0) {
+				choseDir = Math.abs(dif.x) / dif.x;
+				if (choseDir == Math.abs(choseDir)) {
+					preDirection = 3; // Rechts
+				}else {
+					preDirection = 1; //Links
 				}
-		}
-		
-		protected function targetPinpoint() : void { //checktlocatie
-			
-			var dif : Point = new Point(target.x - this.x, target.y - this.y);
-			//trace(Math.abs(dif.x));
-			
-			if (dif.x != 0) {	
-				preMovement.x = Math.abs(dif.x) / dif.x;
-				if (preMovement.x == -1) {
-					preDirection = 1;
-				}else if (preMovement.x == 1) {
-					preDirection = 3;
-				}
-					
 			}else if (dif.y != 0) {
-					
-				preMovement.y = Math.abs(dif.y) / dif.y;
-				if (preMovement.y == -1) {
-					preDirection = 2;
-				}else if (preMovement.y == 1) {
-					preDirection = 4;
-				}
-			}
-			moveDir();
-		}
-		
-		private function moveDir():void {
-			if (hitTestAlert(preDirection) == false) {
-				if (preDirection != direction) {
-					if (preDirection == 1 || preDirection == 3) {
-						if(this.y % 16 == 0){
-							direction = preDirection;
-							movement.x = preMovement.x;
-							movement.y = 0;
-						}
-					}
-					if (preDirection == 2 || preDirection == 4) {
-						if(this.x % 16 == 0){
-							direction = preDirection;
-							movement.y = preMovement.y;
-							movement.x = 0;
-						}
-					}
+				choseDir = Math.abs(dif.y) / dif.y;
+				if (choseDir == Math.abs(choseDir)) {
+					preDirection = 4; // Up
+				}else {
+					preDirection = 2; //Down
 				}
 			}
 		}
 		
-		protected function closestCheckPoint() :void {
-			
-			
+		protected function getPlayerLocation(): Point {
+			var result : Point = new Point();
+			result.x = TileSystem.player.x;
+			result.y = TileSystem.player.y;
+			return result
 		}
 		
-		protected function hitTestAlert(dir : int):Boolean {
-			for (var i : uint = 0; i < walls.length; i++) {
-				if (dir == 1) {
-					if (walls[i].x == this.x - tile && walls[i].y == this.y) {
-						return true;
-						trace("oii");
-						break;
-					}
-				}else if (dir == 2) {
-					if (walls[i].y == this.y - tile && walls[i].x == this.x) {
-						return true;
-						break;
-					}
-				}else if (dir == 3) {
-					if (walls[i].x == this.x + tile && walls[i].y == this.y) {
-						return true;
-						break;
-					}
-				}else if (dir == 4) {
-					if (walls[i].y == this.y + tile && walls[i].x == this.x) {
-						return true;
-						break;
-					}
-				}
-			}
-			return false;
-		}
 	}
 
 }
