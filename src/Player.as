@@ -48,6 +48,24 @@ package
 			}
 		}
 		
+		protected override function animate(animDir : int) :void {
+			switch(animDir) {
+				
+				case 1:
+					art.rotation = 180;
+					break;
+				case 2:
+					art.rotation = 270;
+					break;
+				case 3:
+					art.rotation = 0;
+					break;
+				case 4:
+					art.rotation = 90;
+					break;
+			}
+		}
+		
 		public override function update(e:Event):void 
 		{
 			super.update(e);

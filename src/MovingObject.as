@@ -21,6 +21,7 @@ package
 		//movement
 		protected var preDirection : int = 0;
 		protected var direction : int = 0;
+		protected var moving : Boolean = false;
 		
 		protected var tile : Number;
 		protected var walls : Array;
@@ -70,6 +71,7 @@ package
 			}
 			
 			if (hitTestAlert(direction) == false) {
+				moving = true;
 				if (art_playing == false && direction != 0) {
 					art_playing = true;
 					art.play();
@@ -86,39 +88,31 @@ package
 				if (direction == 4) {
 					this.y += tile * speed;
 				}
-			}else { art.gotoAndStop(5); art_playing = false;}
+			}else { art.gotoAndStop(5); art_playing = false; moving = false; }
 			moveDir();
 		}
 		
 		//voor rotatie bereken vanaf links boven van pacman waar hij word geplaatst
 		protected function moveDir():void {
 			if (hitTestAlert(preDirection) == false) {
-				if(preDirection != direction){
-					if (this.x % 16 == 0) {
-						if (preDirection == 2) {
-							//up
-							art.rotation = 270;
-							direction = 2;
-						}
-						if (preDirection == 4) {
-							//down
-							art.rotation = 90;
-							direction = 4
-						}
-					}if (this.y % 16 == 0) {
-						if (preDirection == 3) {
-							//right
-							art.rotation = 0;
-							direction = 3
-						}
-						if (preDirection == 1) {
-							//left
-							art.rotation = 180;
-							direction = 1;
+				if (preDirection != direction) {
+					if(preDirection == 2 || preDirection == 4){
+						if (this.x % 16 == 0) {
+							
+							direction = preDirection;
 						}
 					}
+					if(preDirection == 1 || preDirection == 3){
+						if (this.y % 16 == 0) {
+							direction = preDirection;
+						}
+					}
+					animate(direction);
 				}
 			}
+		}
+		protected function animate(animInt : int) :void {
+			
 		}
 		
 		protected function hitTestAlert(dir : int):Boolean {

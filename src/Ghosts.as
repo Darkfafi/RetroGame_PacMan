@@ -62,11 +62,29 @@ package
 				}
 			}else if (dif.y != 0) {
 				choseDir = Math.abs(dif.y) / dif.y;
+				trace(this.x + " " + TileSystem.player.x);
 				if (choseDir == Math.abs(choseDir)) {
 					preDirection = 4; // Up
 				}else {
 					preDirection = 2; //Down
 				}
+			}
+		}
+		protected override function animate(animDir : int) :void {
+			switch(animDir) {
+				
+				case 1:
+					art.rotation = 180;
+					break;
+				case 2:
+					art.rotation = 270;
+					break;
+				case 3:
+					art.rotation = 0;
+					break;
+				case 4:
+					art.rotation = 90;
+					break;
 			}
 		}
 		
