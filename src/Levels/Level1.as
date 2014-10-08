@@ -14,9 +14,11 @@ package Levels
 		public var tileSystem : TileSystem = new TileSystem();
 		private var timerCountdown : Timer = new Timer(2000,2);
 		private var gameRunning : Boolean = false;
+		private var ui : UI = new UI();
 		public function Level1() 
 		{
 			addChild(tileSystem);
+			addChild(ui);
 			timerCountdown.addEventListener(TimerEvent.TIMER, onTik);
 			timerCountdown.start();
 			addEventListener(Event.ENTER_FRAME, loop);
@@ -29,10 +31,12 @@ package Levels
 			switch(t.currentCount) {				
 				case 1:
 				trace("ready?");
+				//add ready text
 				break;
 					
 				case 2:
 				trace("Go!");
+				//remove ready text like origenal pacman and start game
 				timerCountdown.reset();
 				timerCountdown.stop();
 				gameRunning = true;

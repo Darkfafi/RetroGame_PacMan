@@ -62,7 +62,6 @@ package
 				}
 			}else if (dif.y != 0) {
 				choseDir = Math.abs(dif.y) / dif.y;
-				trace(this.x + " " + TileSystem.player.x);
 				if (choseDir == Math.abs(choseDir)) {
 					preDirection = 4; // Up
 				}else {

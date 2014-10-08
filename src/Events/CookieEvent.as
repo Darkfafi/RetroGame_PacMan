@@ -8,6 +8,7 @@ package Events
 	public class CookieEvent extends Event
 	{
 		public var i:int;
+		public var score : int;
 		
 		public function CookieEvent(str : String, bub : Boolean) 
 		{

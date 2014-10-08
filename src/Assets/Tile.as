@@ -10,9 +10,9 @@ package Assets
 		
 		public function Tile() 
 		{
-			graphics.lineStyle(1,0x00ff00);
+			//graphics.lineStyle(1,0x00ff00);
 			graphics.beginFill(0x000000);
-			graphics.drawRect(0, 0, 15, 15);
+			graphics.drawRect(0, 0, 16, 16);
 			graphics.endFill();
 		}
 		

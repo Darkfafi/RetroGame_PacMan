@@ -79,6 +79,7 @@ package
 				if (core.hitTestObject(cookies[i])) {
 					var c : CookieEvent = new CookieEvent(Player.EAT_COOKIE,true);
 					c.i = i;
+					c.score = 10;
 					dispatchEvent(c);
 				}
 			}
