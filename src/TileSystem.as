@@ -18,7 +18,9 @@ package
 		public var tileWidth : int = 16;
 		public var tileHight : int = 16;
 		
-		public static var cookies : Array = [];
+		public static const NEXT_LEVEN : String = "nextLevel";
+		
+		public var cookies : Array = [];
 		
 		public static var player : Player;
 		public var ghosts : Array  = [];
@@ -77,6 +79,9 @@ package
 		{
 			removeChild(cookies[c.i]);
 			cookies.splice(c.i, 1);
+			if (cookies.length == 0) {
+				dispatchEvent(new Event(NEXT_LEVEN, true));
+			}
 			//add score and add if cookies array == 0 then end game.
 		}
 		
@@ -117,7 +122,7 @@ package
 					}
 					else if (tileWorld[i][j] == 2) {
 						
-						player = new Player();
+						player = new Player(cookies);
 						player.x = j * 16 - tileWidth / 2;
 						player.y = i * 16;
 						addChild(player);
@@ -133,6 +138,7 @@ package
 				}
 			}
 		}
+		
 		public function worldObPosition(n : int) : Array {
 			
 			var positionOb : Point;
@@ -154,6 +160,24 @@ package
 			}
 			//trace(result);
 			return result;
+		}
+		
+		public function destroy():void {
+			removeEventListener(Event.ADDED_TO_STAGE, init);
+			removeEventListener(Player.EAT_COOKIE, removeCookie);
+
+			var i:int, l:int, cur:DisplayObject;
+			l = this.numChildren;
+			trace(l);
+			for ( i = 0; i < l; i++ ) {
+				if(cur is Sprite){
+					cur = this.getChildAt( i );
+					removeChild(cur);
+				}
+			}
+			trace(cookies.length);
+			cur = null;
+			i = l = NaN;	
 		}
 	}
 

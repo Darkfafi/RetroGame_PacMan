@@ -16,13 +16,17 @@ package
 		private var _uiFont : TextFormat = new TextFormat();
 		private var _scoreDisplay : TextField = new TextField();
 		private var _highScoreDisplay : TextField = new TextField();
-		private var _livesDisplay : Array = []; //met for loop plaatjes neerleggen
 		
-		private var _score : int = 0;
+		private var livesDisplayObjects : Array = [];
+		private var fruitsDisplayObjects : Array = []; // <-- for eatable fruits that give extra score right down origenal pacman
+		
 		private var innerHighscore : SharedObject;
 		private var hightscore : int; // met xml file krijgen. of shared object
+		
+		private var _score : int = 0;
 		private var lives : int = 2;
-		private var livesDisplayObjects : Array = [];
+		
+		
 		
 		public function UI() 
 		{
@@ -66,21 +70,21 @@ package
 			stage.addEventListener(Player.EAT_COOKIE, ateCookie);
 		}
 		
-		private function ateCookie(c:CookieEvent):void 
-		{
-			_score += c.score;
-			updateScoreDisplay()
-		}
 		private function setFont() :void {
 			
 			_uiFont.color = 0xEEEEEE;
 			_uiFont.font = "Press Start";
 			_scoreDisplay.embedFonts;
 		}
-		
-		private function updateScoreDisplay():void {
+		private function ateCookie(c:CookieEvent):void 
+		{
+			updateScoreDisplay(c.score)
+		}
+		private function updateScoreDisplay(scr : int):void {
 			
+			_score += scr;
 			_scoreDisplay.text = "SCORE : " + _score;
+			
 			if (_score % 10000 == 0) {
 				lives += 1;
 				updateLifeDisplay();

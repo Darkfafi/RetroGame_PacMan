@@ -17,11 +17,35 @@ package Levels
 		private var ui : UI = new UI();
 		public function Level1() 
 		{
+			this.addEventListener(Event.ADDED_TO_STAGE, init);
+		}
+		
+		private function init(e:Event):void 
+		{
+			removeEventListener(Event.ADDED_TO_STAGE, init);
+			stage.addEventListener(TileSystem.NEXT_LEVEN,nextLevel);
+			startLevel();
+		}
+		private function startLevel() :void {
+			gameRunning = false;
+			if (stage.contains(tileSystem)) {
+				removeChild(tileSystem);
+				tileSystem  = new TileSystem();
+			}
 			addChild(tileSystem);
-			addChild(ui);
+			if(stage.contains(ui) == false){
+				stage.addChild(ui);
+			}
 			timerCountdown.addEventListener(TimerEvent.TIMER, onTik);
 			timerCountdown.start();
 			addEventListener(Event.ENTER_FRAME, loop);
+		}
+		
+		public function nextLevel(e : Event) :void {
+			trace("fsdfdsfd");
+			removeEventListener(Event.ENTER_FRAME, loop);
+			tileSystem.destroy();
+			startLevel();
 		}
 		
 		private function onTik(e:TimerEvent):void 
@@ -40,6 +64,7 @@ package Levels
 				timerCountdown.reset();
 				timerCountdown.stop();
 				gameRunning = true;
+				timerCountdown.removeEventListener(TimerEvent.TIMER, onTik);
 				for (var i : uint = 0; i < tileSystem.ghosts.length; i++) {
 					tileSystem.ghosts[i].targetPacman();
 				}

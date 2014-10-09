@@ -17,9 +17,9 @@ package
 		private var cookies : Array;
 		public static const EAT_COOKIE : String = "eatCookie";
 		
-		public function Player() 
+		public function Player(cookies : Array) 
 		{
-			cookies = TileSystem.cookies;
+			this.cookies = cookies;
 		}
 		
 		protected override function init(e:Event):void 
