@@ -75,7 +75,7 @@ package
 			_highScoreDisplay.x = _highScoreText.x + 40;
 			_highScoreDisplay.y = _scoreDisplay.y;
 			
-			updateLifeDisplay();
+			updateLifeDisplay(0);
 			
 			stage.addEventListener(Player.EAT_COOKIE, ateCookie);
 		}
@@ -96,8 +96,7 @@ package
 			_scoreDisplay.text = "SCORE : " + _score;
 			
 			if (_score % 10000 == 0) {
-				lives += 1;
-				updateLifeDisplay();
+				updateLifeDisplay(1);
 			}
 			if (_score > hightscore) {
 				innerHighscore.data.score = _score;
@@ -106,7 +105,10 @@ package
 				//end game flush gebruiken om highscore op te slaan.
 			}
 		}
-		private function updateLifeDisplay():void {
+		public function updateLifeDisplay(live : int):void {
+			
+			lives += live;
+			
 			for (var l : int = 0; l < livesDisplayObjects.length; l++) {
 				removeChild(livesDisplayObjects[l]);
 			}

@@ -11,7 +11,7 @@ package
 	public class Ghosts extends MovingObject
 	{
 		//speed = speed * Math.abs(dif.x) / dif.x <---- gebruiken voor links of rechts movement
-		protected var followingPlayer : Boolean = false; //als hij vast loopt gaat hij een pad volgen en dan als hij de speler niet volgt en weer vast loopt volgt hij de speler weer.
+		protected var followingPlayer : Boolean = true; //als hij vast loopt gaat hij een pad volgen en dan als hij de speler niet volgt en weer vast loopt volgt hij de speler weer.
 		protected var target : Point = null;
 		protected var currentTask : int = 0;
 		
@@ -47,31 +47,80 @@ package
 		}
 		
 		private function chasePacman():void {
-			
-			targetPacman(); // <-- wou ik nog anders doen
-			
+			if(followingPlayer){
+				targetPacman(); // <-- wou ik nog anders doen
+			}
 			var dif : Point;
 			var choseDir : int = 0;
 			
 			if(target != null){
 				dif = new Point(target.x - this.x, target.y - this.y);
 			}
-			if (dif.x != 0) {
-				choseDir = Math.abs(dif.x) / dif.x;
-				if (choseDir == Math.abs(choseDir)) {
-					preDirection = 3; // Rechts
-				}else {
-					preDirection = 1; //Links
-				}
-			}else if (dif.y != 0) {
-				movementXY.x = 0;
-				choseDir = Math.abs(dif.y) / dif.y;
-				if (choseDir == Math.abs(choseDir)) {
-					preDirection = 4; // Up
-				}else {
-					preDirection = 2; //Down
+			if (followingPlayer) {
+				if (dif.x != 0) {
+					choseDir = Math.abs(dif.x) / dif.x;
+					if (choseDir == Math.abs(choseDir)) {
+						preDirection = 3; // Rechts
+					}else {
+						preDirection = 1; //Links
+					}
+				}else if (dif.y != 0) {
+					moving = false;
+					choseDir = Math.abs(dif.y) / dif.y;
+					if (choseDir == Math.abs(choseDir)) {
+						preDirection = 4; // Down
+					}else {
+						preDirection = 2; //Up
+					}
 				}
 			}
+			if (!moving && hitTestAlert(preDirection)) {
+				followingPlayer = false;
+			}
+			if (!followingPlayer) {
+				if (dif.y != 0) {
+					preDirection = preMovement;
+					if (!moving) {
+						movementXY.y = 1;
+						if (hitTestAlert(1) == false) {
+							preDirection = 1;
+							
+						}else if (hitTestAlert(3) == false) {
+							preDirection = 3;
+						}
+					}
+					if(moving){
+						if (dif.y < 0) {
+							preDirection = 2;
+						}else if (dif.y > 0) {
+							
+							preDirection = 4;
+						}else { direction = 0;}
+					}
+				}
+				else if (dif.x != 0) {
+					movementXY.y = 0;
+					if(moving){
+						if (hitTestAlert(2) == false) {
+							preDirection = 2;
+						}else if (hitTestAlert(4) == false) {
+							preDirection = 4;
+						}
+					}if(!moving){
+						if (dif.x < 0) {
+							preDirection = 1;
+						}else if (dif.x > 0) {
+							
+							preDirection = 3;
+						}else { direction = 0; }
+					}
+				}
+				if (!moving && hitTestAlert(preDirection)) {
+					followingPlayer = true;
+				}
+				
+			}
+			trace(followingPlayer);
 		}
 		protected override function animate(animDir : int) :void {
 			switch(animDir) {

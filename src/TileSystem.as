@@ -179,7 +179,27 @@ package
 			//trace(result);
 			return result;
 		}
-		
+		public function placeMoversOrigPos() :void {
+			
+			var lYRows : int = tileWorld.length;
+				for (var i : int = 0; i < lYRows; i++) {
+					var lXRows : int = tileWorld[i].length;
+					
+					for (var j : int = 0; j < lXRows; j++) {
+						var l : int = ghosts.length;
+						for (var k : int = 0; k < l; k++) {
+							if (ghosts[k] is Ghosts && tileWorld[i][j] == 4) {
+								ghosts[k].x = j * 16 - tileWidth / 2;
+								ghosts[k].y = i * 16;
+							}
+						}
+						if (tileWorld[i][j] == 2) {
+							player.x = j * 16 - tileWidth / 2;
+							player.y = i * 16;
+						}
+					}
+			}
+		}
 		public function destroy():void {
 			removeEventListener(Event.ADDED_TO_STAGE, init);
 			removeEventListener(Player.EAT_COOKIE, removeCookie);

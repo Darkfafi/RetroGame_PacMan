@@ -81,6 +81,30 @@ package Levels
 					tileSystem.ghosts[i].update(e);
 				}
 			}
+			hitTestGhosts();
+		}
+		
+		private function hitTestGhosts():void 
+		{
+			var l : int = tileSystem.ghosts.length;
+			for (var i : int = 0; i < l; i++) {
+				var ghost : Ghosts = tileSystem.ghosts[i];
+				if (ghost.hitTestObject(TileSystem.player.core) == true) {
+					trace("OMG WHAT IS GOING ON! I'M DYING ;-;");
+					pacmanKilled();
+				}
+			}
+		}
+		
+		private function pacmanKilled():void 
+		{
+			ui.updateLifeDisplay( -1);
+			
+			//pacman death animation
+			tileSystem.placeMoversOrigPos();
+			gameRunning = false;
+			timerCountdown.addEventListener(TimerEvent.TIMER, onTik);
+			timerCountdown.start();
 		}
 	}
 

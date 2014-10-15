@@ -12,7 +12,7 @@ package
 	public class MovingObject extends Sprite
 	{
 		
-		protected var core : Sprite = new PackmanCore(); //hitbox
+		public var core : Sprite = new PackmanCore(); //hitbox
 		
 		protected var art : MovieClip; //visual art <3
 		protected var art_playing : Boolean = false;
@@ -23,6 +23,7 @@ package
 		protected var preDirection : int = 0;
 		protected var direction : int = 0;
 		protected var moving : Boolean = false;
+		protected var preMovement : int = 0;
 		protected var movementXY : Point = new Point();
 		
 		protected var tile : Number;
@@ -71,25 +72,29 @@ package
 				this.x = 0 - tile;
 			}
 			
-			if (hitTestAlert(direction) == false) {
+			if (hitTestAlert(direction) == false && direction != 0) {
 				moving = true;
 				if (art_playing == false && direction != 0) {
 					art_playing = true;
 					art.play();
 				}
-				if (direction == 1){
-					this.x -= tile * speed * movementXY.x;
+				if(movementXY.x == 1){
+					if (direction == 1){
+						this.x -= tile * speed;
+					}
+					if (direction == 3) {
+						this.x += tile * speed;
+					}	
 				}
-				if (direction == 2) {
-					this.y -= tile * speed * movementXY.y;
+				if(movementXY.y == 1){
+					if (direction == 4) {
+						this.y += tile * speed;
+					}
+					if (direction == 2) {
+						this.y -= tile * speed;
+					}
 				}
-				if (direction == 3) {
-					this.x += tile * speed * movementXY.x;
-				}
-				if (direction == 4) {
-					this.y += tile * speed * movementXY.y;
-				}
-			}else { art_playing = false; moving = false; art.stop(); }
+			}else { art_playing = false; moving = false; art.stop();}
 			moveDir();
 		}
 		
@@ -101,6 +106,7 @@ package
 						if (this.x % 16 == 0) {
 							movementXY.x = 0;
 							movementXY.y = 1;
+							preMovement = direction;
 							direction = preDirection;
 							animate(direction);
 						}
@@ -109,6 +115,7 @@ package
 						if (this.y % 16 == 0) {
 							movementXY.y = 0;
 							movementXY.x = 1;
+							preMovement = direction;
 							direction = preDirection;
 							animate(direction);
 						}
