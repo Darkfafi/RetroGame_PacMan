@@ -1,5 +1,6 @@
 package  
 {
+	import Assets.BackGround;
 	import Assets.Cookie;
 	import Assets.Tile;
 	import Assets.Wall;
@@ -15,6 +16,8 @@ package
 	 */
 	public class TileSystem extends MovieClip
 	{
+		private var background : BackGround = new BackGround();
+		
 		public var tileWidth : int = 16;
 		public var tileHight : int = 16;
 		
@@ -80,17 +83,32 @@ package
 			removeChild(cookies[c.i]);
 			cookies.splice(c.i, 1);
 			if (cookies.length == 0) {
-				dispatchEvent(new Event(NEXT_LEVEN, true));
+				//before dispatch show compleat animation
+				for (var i : int = 0; i < ghosts.length; i++) {
+					
+					removeChild(ghosts[i]);
+					ghosts.splice(i, 1);
+				}
+				removeChild(player);
+				player = null;
+				background.addEventListener(BackGround.ANIMATION_END, endLevel);
+				background.endAnim();
+				//dispatchEvent(new Event(NEXT_LEVEN, true));
 			}
 			//add score and add if cookies array == 0 then end game.
+		}
+		
+		private function endLevel(e:Event):void 
+		{
+			dispatchEvent(new Event(NEXT_LEVEN, true));
 		}
 		
 		private function init(e:Event):void 
 		{
 			removeEventListener(Event.ADDED_TO_STAGE, init);
 			
-			var background : Background = new Background();
 			addChild(background);
+			
 			background.y = tileHight * 3
 			var lYRows : int = tileWorld.length;
 			for (var i : int = 0; i < lYRows; i++) {

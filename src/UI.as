@@ -14,7 +14,10 @@ package
 	public class UI extends Sprite
 	{
 		private var _uiFont : TextFormat = new TextFormat();
+		
 		private var _scoreDisplay : TextField = new TextField();
+		
+		private var _highScoreText : TextField = new TextField();
 		private var _highScoreDisplay : TextField = new TextField();
 		
 		private var livesDisplayObjects : Array = [];
@@ -36,6 +39,9 @@ package
 			
 			_scoreDisplay.defaultTextFormat = _uiFont;
 			_highScoreDisplay.defaultTextFormat = _uiFont;
+			_highScoreText.defaultTextFormat = _uiFont;
+			
+			_highScoreText.text = "Highscore:";
 			
 			_scoreDisplay.text = "SCORE : " + "00";
 			
@@ -48,6 +54,7 @@ package
 			}
 			
 			addChild(_scoreDisplay);
+			addChild(_highScoreText);
 			addChild(_highScoreDisplay);
 			
 			this.addEventListener(Event.ADDED_TO_STAGE, init);
@@ -62,7 +69,10 @@ package
 			_scoreDisplay.x = 20;
 			_scoreDisplay.y = 20;
 			
-			_highScoreDisplay.x = _scoreDisplay.x + 200;
+			_highScoreText.x = _scoreDisplay.x + 160;
+			_highScoreText.width = stage.stageWidth / 2;
+			
+			_highScoreDisplay.x = _highScoreText.x + 40;
 			_highScoreDisplay.y = _scoreDisplay.y;
 			
 			updateLifeDisplay();
@@ -93,6 +103,7 @@ package
 				innerHighscore.data.score = _score;
 				hightscore = innerHighscore.data.score;
 				_highScoreDisplay.text = hightscore.toString();
+				//end game flush gebruiken om highscore op te slaan.
 			}
 		}
 		private function updateLifeDisplay():void {

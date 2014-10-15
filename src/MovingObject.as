@@ -4,6 +4,7 @@ package
 	import flash.display.MovieClip;
 	import flash.display.Sprite;
 	import flash.events.Event;
+	import flash.geom.Point;
 	/**
 	 * ...
 	 * @author Ramses di Perna
@@ -22,6 +23,7 @@ package
 		protected var preDirection : int = 0;
 		protected var direction : int = 0;
 		protected var moving : Boolean = false;
+		protected var movementXY : Point = new Point();
 		
 		protected var tile : Number;
 		protected var walls : Array;
@@ -52,8 +54,7 @@ package
 			art.stop();
 			art.x = 8;
 			art.y = 8;
-			art.scaleX = 0.75;
-			art.scaleY = 0.75;
+			
 		}
 		
 		public function update(e : Event) :void {
@@ -77,18 +78,18 @@ package
 					art.play();
 				}
 				if (direction == 1){
-					this.x -= tile * speed;
+					this.x -= tile * speed * movementXY.x;
 				}
 				if (direction == 2) {
-					this.y -= tile * speed;
+					this.y -= tile * speed * movementXY.y;
 				}
 				if (direction == 3) {
-					this.x += tile * speed;
+					this.x += tile * speed * movementXY.x;
 				}
 				if (direction == 4) {
-					this.y += tile * speed;
+					this.y += tile * speed * movementXY.y;
 				}
-			}else { art.gotoAndStop(5); art_playing = false; moving = false; }
+			}else { art_playing = false; moving = false; art.stop(); }
 			moveDir();
 		}
 		
@@ -98,21 +99,24 @@ package
 				if (preDirection != direction) {
 					if(preDirection == 2 || preDirection == 4){
 						if (this.x % 16 == 0) {
-							
+							movementXY.x = 0;
+							movementXY.y = 1;
 							direction = preDirection;
+							animate(direction);
 						}
 					}
 					if(preDirection == 1 || preDirection == 3){
 						if (this.y % 16 == 0) {
+							movementXY.y = 0;
+							movementXY.x = 1;
 							direction = preDirection;
+							animate(direction);
 						}
 					}
-					animate(direction);
 				}
 			}
 		}
 		protected function animate(animInt : int) :void {
-			
 		}
 		
 		protected function hitTestAlert(dir : int):Boolean {

@@ -19,9 +19,11 @@ package
 		{
 			removeEventListener(Event.ADDED_TO_STAGE, init);
 			
-			var ghostArt : MovieClip = new PacManWalk();
+			var ghostArt : MovieClip = new ghostRed();
 			
 			drawObject(ghostArt);
+			ghostArt.scaleX = 1.5;
+			ghostArt.scaleY = 1.5;
 		}
 		
 		public function targetPacman() : void {
@@ -32,6 +34,7 @@ package
 		public override function update(e : Event) :void {
 			
 			super.update(e);
+			animateDir();
 			ghostTask();
 		}
 		
@@ -61,6 +64,7 @@ package
 					preDirection = 1; //Links
 				}
 			}else if (dif.y != 0) {
+				movementXY.x = 0;
 				choseDir = Math.abs(dif.y) / dif.y;
 				if (choseDir == Math.abs(choseDir)) {
 					preDirection = 4; // Up
@@ -71,19 +75,34 @@ package
 		}
 		protected override function animate(animDir : int) :void {
 			switch(animDir) {
-				
 				case 1:
-					art.rotation = 180;
+					art.gotoAndPlay(13);
 					break;
 				case 2:
-					art.rotation = 270;
+					art.gotoAndPlay(1);
 					break;
 				case 3:
-					art.rotation = 0;
+					art.gotoAndPlay(5);
 					break;
 				case 4:
-					art.rotation = 90;
+					art.gotoAndPlay(9);
 					break;
+			}
+		}
+		
+		private function animateDir():void 
+		{
+			if (art.currentFrame == 16) {
+				art.gotoAndPlay(13);
+			}
+			if (art.currentFrame == 4) {
+				art.gotoAndPlay(1);
+			}
+			if (art.currentFrame == 8) {
+				art.gotoAndPlay(5);
+			}
+			if (art.currentFrame == 12) {
+				art.gotoAndPlay(9);
 			}
 		}
 		

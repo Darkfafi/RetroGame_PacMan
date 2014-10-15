@@ -2,7 +2,7 @@ package
 {
 	import flash.display.Sprite;
 	import flash.events.Event;
-	import Levels.Level1;
+	import Levels.Level;
 	
 	/**
 	 * ...
@@ -10,7 +10,7 @@ package
 	 */
 	public class Main extends Sprite 
 	{
-		private var level1 : Level1 = new Level1();
+		private var level1 : Level = new Level();
 		
 		public function Main():void 
 		{

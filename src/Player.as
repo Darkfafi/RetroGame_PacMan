@@ -30,6 +30,9 @@ package
 			
 			drawObject(pacmanArt);
 			
+			art.scaleX = 0.75;
+			art.scaleY = 0.75;
+			
 			stage.addEventListener(KeyboardEvent.KEY_DOWN, keyDown);
 		}
 		
@@ -70,6 +73,9 @@ package
 		{
 			super.update(e);
 			eatCookie();
+			if (moving == false && art_playing == false && art.currentFrame != 5) {
+				art.gotoAndStop(5);
+			}
 		}
 		
 		private function eatCookie():void 
@@ -79,7 +85,7 @@ package
 				if (core.hitTestObject(cookies[i])) {
 					var c : CookieEvent = new CookieEvent(Player.EAT_COOKIE,true);
 					c.i = i;
-					c.score = 10;
+					c.score = 10 ;
 					dispatchEvent(c);
 				}
 			}
