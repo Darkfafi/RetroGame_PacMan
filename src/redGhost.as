@@ -56,7 +56,7 @@ package
 						preDirection = 2; //Up
 					}
 					if (hitTestAlert(preDirection) == false) {
-						movementXY.x = 0;
+						//movementXY.x = 0;
 					}else {
 						moving = false;
 					}
@@ -67,8 +67,7 @@ package
 				}
 			}else {
 				if (dif.y != 0 && movingX == false) {
-					movementXY.x = 1;
-					preDirection = preMovement;
+					//preDirection = preMovement;
 					if (!moving) {
 						if (hitTestAlert(1) == false) {
 							preDirection = 1;
@@ -76,6 +75,7 @@ package
 						}else if (hitTestAlert(3) == false) {
 							preDirection = 3;
 						}
+						//movementXY.x = 1;
 					}
 					else{
 						if (dif.y < 0) {
@@ -87,7 +87,6 @@ package
 				}
 				else if (dif.x != 0) {
 					movingX = true;
-					movementXY.x = 1;
 					if (!moving) {
 						if (hitTestAlert(2) == false) {
 							preDirection = 2;
@@ -102,13 +101,13 @@ package
 							preDirection = 3;
 						}
 					}
-				}else { movingX = false; movementXY.x = 0;}
+				}else { movingX = false; followingPlayer = true; }
 				if (!moving && hitTestAlert(preDirection) == true) {
 					trace("true");
 					movingX = false;
 					followingPlayer = true;
 				}
-				
+				trace(movementXY);
 			}
 		}
 		

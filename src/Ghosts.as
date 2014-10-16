@@ -11,9 +11,10 @@ package
 	public class Ghosts extends MovingObject
 	{
 		//speed = speed * Math.abs(dif.x) / dif.x <---- gebruiken voor links of rechts movement
-		protected var followingPlayer : Boolean = true; //als hij vast loopt gaat hij een pad volgen en dan als hij de speler niet volgt en weer vast loopt volgt hij de speler weer.
+		public var followingPlayer : Boolean = true; //als hij vast loopt gaat hij een pad volgen en dan als hij de speler niet volgt en weer vast loopt volgt hij de speler weer.
 		protected var target : Point = null;
 		protected var currentTask : int = 0;
+		public var eatAble : Boolean = false;
 		
 		protected override function init(e:Event):void 
 		{

@@ -32,7 +32,6 @@ package
 			
 			art.scaleX = 0.75;
 			art.scaleY = 0.75;
-			
 			stage.addEventListener(KeyboardEvent.KEY_DOWN, keyDown);
 		}
 		

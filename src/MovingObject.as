@@ -78,7 +78,8 @@ package
 					art_playing = true;
 					art.play();
 				}
-				if(movementXY.x == 1){
+				if (movementXY.x == 1) {
+					movementXY.y = 0;
 					if (direction == 1){
 						this.x -= tile * speed;
 					}
@@ -86,7 +87,8 @@ package
 						this.x += tile * speed;
 					}	
 				}
-				if(movementXY.y == 1){
+				if (movementXY.y == 1) {
+					movementXY.x = 0;
 					if (direction == 4) {
 						this.y += tile * speed;
 					}
@@ -151,6 +153,16 @@ package
 				}
 			}
 			return false;
+		}
+		
+		public function set _preDirection(value:int):void 
+		{
+			preDirection = value;
+		}
+		
+		public function set _direction(value:int):void 
+		{
+			direction = value;
 		}
 		
 	}
