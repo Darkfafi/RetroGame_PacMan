@@ -49,16 +49,14 @@ package
 						preDirection = 1; //Links
 					}
 				}else if (dif.y != 0) {
+					if (direction == 3 || direction == 1) {
+						direction = 0;
+					}
 					choseDir = Math.abs(dif.y) / dif.y;
 					if (choseDir == Math.abs(choseDir)) {
 						preDirection = 4; // Down
 					}else {
 						preDirection = 2; //Up
-					}
-					if (hitTestAlert(preDirection) == false) {
-						//movementXY.x = 0;
-					}else {
-						moving = false;
 					}
 				}
 				if (!moving && hitTestAlert(preDirection)) {
@@ -67,7 +65,6 @@ package
 				}
 			}else {
 				if (dif.y != 0 && movingX == false) {
-					//preDirection = preMovement;
 					if (!moving) {
 						if (hitTestAlert(1) == false) {
 							preDirection = 1;
@@ -75,7 +72,6 @@ package
 						}else if (hitTestAlert(3) == false) {
 							preDirection = 3;
 						}
-						//movementXY.x = 1;
 					}
 					else{
 						if (dif.y < 0) {
