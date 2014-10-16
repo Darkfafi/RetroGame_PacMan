@@ -147,7 +147,7 @@ package
 						
 					}else if (tileWorld[i][j] == 4) {
 						
-						object = new Ghosts();
+						object = new redGhost();
 						object.x = j * 16 - tileWidth / 2;
 						object.y = i * 16;
 						addChild(object);
