@@ -7,6 +7,10 @@ package
 	import flash.net.SharedObject;
 	import flash.text.TextField;
 	import flash.text.TextFormat;
+	
+	//Test
+	import flash.system.fscommand;
+	
 	/**
 	 * ...
 	 * @author Ramses di Perna
@@ -41,7 +45,7 @@ package
 			_highScoreDisplay.defaultTextFormat = _uiFont;
 			_highScoreText.defaultTextFormat = _uiFont;
 			
-			_highScoreText.text = "Highscore:";
+			_highScoreText.text = "HIGH SCORE:";
 			
 			_scoreDisplay.text = "SCORE : " + "00";
 			
@@ -125,6 +129,9 @@ package
 				liveDis.x = (i * 30) + 30;
 				liveDis.y = stage.stageHeight - 15;
 				livesDisplayObjects.push(liveDis);
+			}
+			if (lives <= 0) {
+				fscommand('quit');
 			}
 		}
 		

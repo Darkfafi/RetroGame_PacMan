@@ -17,7 +17,7 @@ package Assets
 		
 		public function BackGround() 
 		{	
-			addChild(background);
+			addChildAt(background,0);
 			background.gotoAndStop(1);
 		}
 		

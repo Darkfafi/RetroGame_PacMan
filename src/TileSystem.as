@@ -10,6 +10,11 @@ package
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.geom.Point;
+	import Ghost.BlueGhost;
+	import Ghost.Ghosts;
+	import Ghost.PinkGhost;
+	import Ghost.RedGhost;
+	import Ghost.YellowGhost;
 	/**
 	 * ...
 	 * @author Ramses di Perna
@@ -49,7 +54,7 @@ package
 			[0, 0, 0, 0, 0, 1, 3, 1, 1, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 1, 1, 3, 1, 0, 0, 0, 0, 0],
 			[0, 0, 0, 0, 0, 1, 3, 1, 1, 0, 1, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 3, 1, 0, 0, 0, 0, 0],
 			[1, 1, 1, 1, 1, 1, 3, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 3, 1, 1, 1, 1, 1, 1],
-			[0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0],
+			[0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 1, 0, 4, 0, 4, 0, 4, 1, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0],
 			[1, 1, 1, 1, 1, 1, 3, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 3, 1, 1, 1, 1, 1, 1],
 			[0, 0, 0, 0, 0, 1, 3, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 3, 1, 0, 0, 0, 0, 0],
 			[0, 0, 0, 0, 0, 1, 3, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 3, 1, 0, 0, 0, 0, 0],
@@ -84,7 +89,7 @@ package
 			cookies.splice(c.i, 1);
 			if (cookies.length == 0) {
 				//before dispatch show compleat animation
-				for (var i : int = 0; i < ghosts.length; i++) {
+				for (var i : int = ghosts.length - 1; i >= 0; i--) {
 					
 					removeChild(ghosts[i]);
 					ghosts.splice(i, 1);
@@ -146,12 +151,26 @@ package
 						addChild(player);
 						
 					}else if (tileWorld[i][j] == 4) {
-						
-						object = new redGhost();
+						//if ghosts.length == 0 red else other color else other color
+						if(ghosts.length == 0){
+							object = new RedGhost();
+						}else if (ghosts.length == 1) {
+							object = new BlueGhost();
+						}else if (ghosts.length == 2) {
+							object = new PinkGhost();
+						}else if (ghosts.length == 3) {
+							object = new YellowGhost();
+						}
 						object.x = j * 16 - tileWidth / 2;
 						object.y = i * 16;
 						addChild(object);
 						ghosts.push(object);
+					}
+					if (cookies.length == 240) {
+						//plaatst ze boven de koekjes....I know okey jezus maar ik had geen ideeën meer! 
+						for (var k : int = 0; k < ghosts.length; k++) {
+							addChild(ghosts[k]);
+						}
 					}
 				}
 			}
@@ -180,21 +199,20 @@ package
 			return result;
 		}
 		public function placeMoversOrigPos() :void {
+			var k : uint = -1;
 			
 			var lYRows : int = tileWorld.length;
 				for (var i : int = 0; i < lYRows; i++) {
 					var lXRows : int = tileWorld[i].length;
 					
 					for (var j : int = 0; j < lXRows; j++) {
-						var l : int = ghosts.length;
-						for (var k : int = 0; k < l; k++) {
-							if (ghosts[k] is Ghosts && tileWorld[i][j] == 4) {
-								ghosts[k].x = j * 16 - tileWidth / 2;
-								ghosts[k].y = i * 16;
-								ghosts[k].followingPlayer = true;
-								ghosts[k]._direction = 0;
-								ghosts[k]._preDirection = 0;
-							}
+						if (tileWorld[i][j] == 4) {
+							k += 1;
+							ghosts[k].x = j * 16 - tileWidth / 2;
+							ghosts[k].y = i * 16;
+							ghosts[k].followingPlayer = true;
+							ghosts[k]._direction = 0;
+							ghosts[k]._preDirection = 0;
 						}
 						if (tileWorld[i][j] == 2) {
 							player.x = j * 16 - tileWidth / 2;

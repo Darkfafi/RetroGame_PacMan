@@ -1,4 +1,4 @@
-package  
+package Ghost
 {
 	import flash.display.MovieClip;
 	import flash.events.Event;
@@ -7,21 +7,13 @@ package
 	 * ...
 	 * @author Ramses di Perna
 	 */
-	public class redGhost extends Ghosts
+	public class RedGhost extends Ghosts
 	{
 		private var movingX : Boolean = false;
 		
-		public function redGhost() 
+		public function RedGhost() 
 		{
-			
-		}
-		override protected function init(e:Event):void 
-		{
-			super.init(e);
-			var ghostArt : MovieClip = new ghostRed();
-			drawObject(ghostArt);
-			ghostArt.scaleX = 1.5;
-			ghostArt.scaleY = 1.5;
+			ghostArt = new ghostRed();
 		}
 		
 		override protected function ghostTask():void 
@@ -97,13 +89,8 @@ package
 							preDirection = 3;
 						}
 					}
-				}else { movingX = false; followingPlayer = true; }
-				if (!moving && hitTestAlert(preDirection) == true) {
-					trace("true");
-					movingX = false;
-					followingPlayer = true;
-				}
-				trace(movementXY);
+				}else { movingX = false; followingPlayer = true;}
+				//trace(movementXY);
 			}
 		}
 		

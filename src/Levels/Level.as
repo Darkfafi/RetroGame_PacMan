@@ -5,6 +5,7 @@ package Levels
 	import flash.events.TimerEvent;
 	import flash.geom.Point;
 	import flash.utils.Timer;
+	import Ghost.Ghosts;
 	/**
 	 * ...
 	 * @author Ramses di Perna
@@ -89,9 +90,11 @@ package Levels
 			var l : int = tileSystem.ghosts.length;
 			for (var i : int = 0; i < l; i++) {
 				var ghost : Ghosts = tileSystem.ghosts[i];
-				if (ghost.hitTestObject(TileSystem.player.core) == true) {
-					trace("OMG WHAT IS GOING ON! I'M DYING ;-;");
-					pacmanKilled();
+				if(TileSystem.player != null){
+					if (ghost.hitTestObject(TileSystem.player.core) == true) {
+						trace("OMG WHAT IS GOING ON! I'M DYING ;-;");
+						pacmanKilled();
+					}
 				}
 			}
 		}

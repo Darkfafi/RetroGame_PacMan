@@ -1,4 +1,4 @@
-package  
+package Ghost
 {
 	import flash.display.MovieClip;
 	import flash.display.Sprite;
@@ -14,13 +14,17 @@ package
 		public var followingPlayer : Boolean = true; //als hij vast loopt gaat hij een pad volgen en dan als hij de speler niet volgt en weer vast loopt volgt hij de speler weer.
 		protected var target : Point = null;
 		protected var currentTask : int = 0;
+		protected var ghostArt : MovieClip = new MovieClip();
 		public var eatAble : Boolean = false;
 		
 		protected override function init(e:Event):void 
 		{
 			removeEventListener(Event.ADDED_TO_STAGE, init);
 			
-			var ghostArt : MovieClip = new MovieClip();
+			drawObject(ghostArt);
+			
+			ghostArt.scaleX = 2;
+			ghostArt.scaleY = 2;
 		}
 		
 		public function targetPacman() : void {
@@ -37,7 +41,7 @@ package
 		
 		protected function ghostTask():void {
 			
-			//elke geest heeft een andere taak. hier word zijn taak gekozen en uitgevoert. Voor test word hier de Chase task in opgeroepen.
+			//elke geest heeft een andere taak. hier word zijn taak gekozen en uitgevoert.
 			//if not running
 			//task
 			//else
