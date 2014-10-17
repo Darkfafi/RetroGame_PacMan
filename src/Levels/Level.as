@@ -4,6 +4,8 @@ package Levels
 	import flash.events.Event;
 	import flash.events.TimerEvent;
 	import flash.geom.Point;
+	import flash.text.TextField;
+	import flash.text.TextFormat;
 	import flash.utils.Timer;
 	import Ghost.Ghosts;
 	/**
@@ -13,9 +15,13 @@ package Levels
 	public class Level extends MovieClip
 	{
 		public var tileSystem : TileSystem = new TileSystem();
-		private var timerCountdown : Timer = new Timer(1000,2);
+		private var timerCountdown : Timer = new Timer(2000,2);
 		private var gameRunning : Boolean = false;
 		private var ui : UI = new UI();
+		
+		private var readyText : TextField = new TextField();
+		private var playerOneText : TextField = new TextField();
+		
 		public function Level() 
 		{
 			this.addEventListener(Event.ADDED_TO_STAGE, init);
@@ -26,6 +32,32 @@ package Levels
 			removeEventListener(Event.ADDED_TO_STAGE, init);
 			stage.addEventListener(TileSystem.NEXT_LEVEN,nextLevel);
 			startLevel();
+			
+			readyText.text = "READY!";
+			playerOneText.text = "PLAYER ONE";
+			
+			var format : TextFormat = new TextFormat(null,15);
+			
+			format.font = "Press Start";
+			
+			trace(format.size);
+			
+			readyText.setTextFormat(format);
+			playerOneText.setTextFormat(format);
+			
+			playerOneText.width = stage.stageWidth/2;
+			
+			readyText.textColor = 0xDDDD00;
+			playerOneText.textColor = 0x00Dfff;
+			
+			playerOneText.x = stage.stageWidth / 3;
+			playerOneText.y = stage.stageHeight / 2.6;
+			
+			readyText.x = stage.stageWidth / 2.4;
+			readyText.y = stage.stageHeight / 1.8;
+			
+			addChild(playerOneText);
+			addChild(readyText);
 		}
 		private function startLevel() :void {
 			gameRunning = false;
@@ -36,6 +68,9 @@ package Levels
 			addChild(tileSystem);
 			if(stage.contains(ui) == false){
 				stage.addChild(ui);
+			}
+			if (!contains(readyText)) {
+				addChild(readyText);
 			}
 			timerCountdown.addEventListener(TimerEvent.TIMER, onTik);
 			timerCountdown.start();
@@ -54,18 +89,24 @@ package Levels
 			
 			switch(t.currentCount) {				
 				case 1:
-				trace("ready?");
+				if(contains(playerOneText)){
+					removeChild(playerOneText);
+				}
+				for (var i : uint = 0; i < tileSystem.ghosts.length; i++) {
+					tileSystem.ghosts[i].visible = true;
+				}
 				//add ready text
 				break;
 					
 				case 2:
-				trace("Go!");
 				//remove ready text like origenal pacman and start game
-				timerCountdown.reset();
+				removeChild(readyText);
+				
+				timerCountdown = new Timer(1000,2);
 				timerCountdown.stop();
 				gameRunning = true;
 				timerCountdown.removeEventListener(TimerEvent.TIMER, onTik);
-				for (var i : uint = 0; i < tileSystem.ghosts.length; i++) {
+				for (i = 0; i < tileSystem.ghosts.length; i++) {
 					tileSystem.ghosts[i].targetPacman();
 				}
 				break;	
@@ -106,6 +147,9 @@ package Levels
 			//pacman death animation
 			tileSystem.placeMoversOrigPos();
 			gameRunning = false;
+			if (!contains(readyText)) {
+				addChild(readyText);
+			}
 			timerCountdown.addEventListener(TimerEvent.TIMER, onTik);
 			timerCountdown.start();
 		}

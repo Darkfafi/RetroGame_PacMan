@@ -24,7 +24,7 @@ package Ghost
 		
 		private function chasePacman():void {
 			if(followingPlayer){
-				targetPacman(); // <-- wou ik nog anders doen
+				targetPacman();
 			}
 			var dif : Point;
 			var choseDir : int = 0;

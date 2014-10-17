@@ -164,6 +164,7 @@ package
 						object.x = j * 16 - tileWidth / 2;
 						object.y = i * 16;
 						addChild(object);
+						object.visible = false;
 						ghosts.push(object);
 					}
 					if (cookies.length == 240) {

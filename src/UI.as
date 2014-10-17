@@ -17,7 +17,7 @@ package
 	 */
 	public class UI extends Sprite
 	{
-		private var _uiFont : TextFormat = new TextFormat();
+		public var _uiFont : TextFormat = new TextFormat();
 		
 		private var _scoreDisplay : TextField = new TextField();
 		
@@ -89,6 +89,8 @@ package
 			_uiFont.color = 0xEEEEEE;
 			_uiFont.font = "Press Start";
 			_scoreDisplay.embedFonts;
+			_highScoreDisplay.embedFonts;
+			_highScoreText.embedFonts;
 		}
 		private function ateCookie(c:CookieEvent):void 
 		{
@@ -131,6 +133,7 @@ package
 				livesDisplayObjects.push(liveDis);
 			}
 			if (lives <= 0) {
+				//test
 				fscommand('quit');
 			}
 		}
