@@ -7,6 +7,7 @@ package
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.events.KeyboardEvent;
+	import Sound.SoundManager;
 	/**
 	 * ...
 	 * @author Ramses di Perna
@@ -86,6 +87,7 @@ package
 					c.i = i;
 					c.score = 10 ;
 					dispatchEvent(c);
+					SoundManager.playSound(SoundManager.EAT_DOT_SOUND);
 				}
 			}
 		}

@@ -3,6 +3,7 @@ package
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import Levels.Level;
+	import Sound.SoundManager;
 	
 	/**
 	 * ...
@@ -21,6 +22,7 @@ package
 		private function init(e:Event = null):void 
 		{
 			removeEventListener(Event.ADDED_TO_STAGE, init);
+			SoundManager.loadSounds();
 			
 			addChild(level1);
 		}

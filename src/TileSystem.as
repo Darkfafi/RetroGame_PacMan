@@ -200,7 +200,7 @@ package
 			return result;
 		}
 		public function placeMoversOrigPos() :void {
-			var k : uint = -1;
+			var k : int = -1;
 			
 			var lYRows : int = tileWorld.length;
 				for (var i : int = 0; i < lYRows; i++) {

@@ -8,6 +8,7 @@ package Levels
 	import flash.text.TextFormat;
 	import flash.utils.Timer;
 	import Ghost.Ghosts;
+	import Sound.SoundManager;
 	/**
 	 * ...
 	 * @author Ramses di Perna
@@ -15,7 +16,7 @@ package Levels
 	public class Level extends MovieClip
 	{
 		public var tileSystem : TileSystem = new TileSystem();
-		private var timerCountdown : Timer = new Timer(2000,2);
+		private var timerCountdown : Timer = new Timer(2200,2);
 		private var gameRunning : Boolean = false;
 		private var ui : UI = new UI();
 		
@@ -30,7 +31,8 @@ package Levels
 		private function init(e:Event):void 
 		{
 			removeEventListener(Event.ADDED_TO_STAGE, init);
-			stage.addEventListener(TileSystem.NEXT_LEVEN,nextLevel);
+			stage.addEventListener(TileSystem.NEXT_LEVEN, nextLevel);
+			SoundManager.playSound(SoundManager.START_SOUND);
 			startLevel();
 			
 			readyText.text = "READY!";
@@ -61,6 +63,7 @@ package Levels
 		}
 		private function startLevel() :void {
 			gameRunning = false;
+			
 			if (stage.contains(tileSystem)) {
 				removeChild(tileSystem);
 				tileSystem  = new TileSystem();
