@@ -33,6 +33,7 @@ package
 			
 			art.scaleX = 0.75;
 			art.scaleY = 0.75;
+			
 			stage.addEventListener(KeyboardEvent.KEY_DOWN, keyDown);
 		}
 		
@@ -72,8 +73,10 @@ package
 		public override function update(e:Event):void 
 		{
 			super.update(e);
+			
 			eatCookie();
-			if (moving == false && art_playing == false && art.currentFrame != 5) {
+			
+			if (moving == false && art_playing == false && direction != 0) {
 				art.gotoAndStop(5);
 			}
 		}

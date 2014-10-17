@@ -82,6 +82,7 @@ package Levels
 		
 		public function nextLevel(e : Event) :void {
 			removeEventListener(Event.ENTER_FRAME, loop);
+			SoundManager.stopSound();
 			tileSystem.destroy();
 			startLevel();
 		}
@@ -109,9 +110,12 @@ package Levels
 				timerCountdown.stop();
 				gameRunning = true;
 				timerCountdown.removeEventListener(TimerEvent.TIMER, onTik);
+				
 				for (i = 0; i < tileSystem.ghosts.length; i++) {
 					tileSystem.ghosts[i].targetPacman();
 				}
+				SoundManager.playSound(SoundManager.SIREN);
+				
 				break;	
 			}
 		}
@@ -145,6 +149,7 @@ package Levels
 		
 		private function pacmanKilled():void 
 		{
+			SoundManager.stopSound();
 			ui.updateLifeDisplay( -1);
 			
 			//pacman death animation
@@ -153,6 +158,7 @@ package Levels
 			if (!contains(readyText)) {
 				addChild(readyText);
 			}
+			
 			timerCountdown.addEventListener(TimerEvent.TIMER, onTik);
 			timerCountdown.start();
 		}

@@ -23,8 +23,15 @@ package
 		{
 			removeEventListener(Event.ADDED_TO_STAGE, init);
 			SoundManager.loadSounds();
-			
-			addChild(level1);
+			addEventListener(Event.ENTER_FRAME, start);
+		}
+		
+		private function start(e:Event):void 
+		{
+			if (SoundManager.allSoundsLoaded) {
+				removeEventListener(Event.ENTER_FRAME, start);
+				addChild(level1);
+			}
 		}
 		
 	}
