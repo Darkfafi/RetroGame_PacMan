@@ -11,10 +11,13 @@ package Ghost
 	public class Ghosts extends MovingObject
 	{
 		//speed = speed * Math.abs(dif.x) / dif.x <---- gebruiken voor links of rechts movement
-		public var followingPlayer : Boolean = true; //als hij vast loopt gaat hij een pad volgen en dan als hij de speler niet volgt en weer vast loopt volgt hij de speler weer.
+		public var followingPlayer : Boolean = false; //als hij vast loopt gaat hij een pad volgen en dan als hij de speler niet volgt en weer vast loopt volgt hij de speler weer.
 		protected var target : Point = null;
-		protected var currentTask : int = 0;
+		
+		protected var _currentTask : int = 0;
+		
 		protected var ghostArt : MovieClip = new MovieClip();
+		protected var allowedInChamber = true;
 		public var eatAble : Boolean = false;
 		
 		protected override function init(e:Event):void 
@@ -38,15 +41,20 @@ package Ghost
 			animateDir();
 			ghostTask();
 		}
-		
 		protected function ghostTask():void {
 			
 			//elke geest heeft een andere taak. hier word zijn taak gekozen en uitgevoert.
 			//if not running
+			if (_currentTask == 0) {
+				preBehavior();
+			}
 			//task
 			//else
 		}
-		
+		protected function preBehavior() : void {
+			// hier gaat het gedrag in wat de spook doet aan het begin van het spel;
+			
+		}
 		protected override function animate(animDir : int) :void {
 			switch(animDir) {
 				case 1:
@@ -85,6 +93,11 @@ package Ghost
 			result.x = TileSystem.player.x;
 			result.y = TileSystem.player.y;
 			return result
+		}
+		
+		public function set currentTask(value:int):void 
+		{
+			_currentTask = value;
 		}
 		
 	}

@@ -9,20 +9,38 @@ package Ghost
 	 */
 	public class RedGhost extends Ghosts
 	{
-		private var movingX : Boolean = false;
+		protected var movingX : Boolean = false;
 		
 		public function RedGhost() 
 		{
 			ghostArt = new ghostRed();
+			allowedInChamber = false;
 		}
 		
 		override protected function ghostTask():void 
 		{
 			super.ghostTask();
-			chasePacman();
+			if (_currentTask == 1) {
+				//als timer 0 = dan zet timer aan. na timer verander naar wegren modus ofzo idk <3
+				chasePacman();
+			}
 		}
-		
-		private function chasePacman():void {
+		override protected function preBehavior():void 
+		{
+			super.preBehavior();
+			
+			if (hitTestAlert(1) == false && direction != 4) {
+				preDirection = 1;
+			}else if (hitTestAlert(4) == false) { 
+				preDirection = 4; 
+			}else { currentTask = 1; }
+			
+		}
+		protected function targetDif(target : Point) : Point {
+			var dif : Point = new Point(target.x - this.x, target.y - this.y);
+			return dif;
+		}
+		protected function chasePacman():void {
 			if(followingPlayer){
 				targetPacman();
 			}
@@ -30,7 +48,7 @@ package Ghost
 			var choseDir : int = 0;
 			
 			if(target != null){
-				dif = new Point(target.x - this.x, target.y - this.y);
+				dif = targetDif(target);
 			}
 			if (followingPlayer) {
 				if (dif.x != 0) {

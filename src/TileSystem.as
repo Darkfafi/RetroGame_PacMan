@@ -15,6 +15,7 @@ package
 	import Ghost.PinkGhost;
 	import Ghost.RedGhost;
 	import Ghost.YellowGhost;
+	import Sound.SoundManager;
 	/**
 	 * ...
 	 * @author Ramses di Perna
@@ -96,6 +97,7 @@ package
 				}
 				removeChild(player);
 				player = null;
+				SoundManager.stopSound();
 				background.addEventListener(BackGround.ANIMATION_END, endLevel);
 				background.endAnim();
 				//dispatchEvent(new Event(NEXT_LEVEN, true));
@@ -213,6 +215,7 @@ package
 							ghosts[k].y = i * 16;
 							ghosts[k].followingPlayer = true;
 							ghosts[k]._direction = 0;
+							ghosts[k].currentTask = 0;
 							ghosts[k]._preDirection = 0;
 						}
 						if (tileWorld[i][j] == 2) {

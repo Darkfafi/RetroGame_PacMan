@@ -82,7 +82,6 @@ package Levels
 		
 		public function nextLevel(e : Event) :void {
 			removeEventListener(Event.ENTER_FRAME, loop);
-			SoundManager.stopSound();
 			tileSystem.destroy();
 			startLevel();
 		}
