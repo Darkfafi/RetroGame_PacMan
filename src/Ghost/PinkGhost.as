@@ -1,16 +1,19 @@
 package Ghost 
 {
 	import flash.geom.Point;
+	import flash.utils.Timer;
 	/**
 	 * ...
 	 * @author Ramses di Perna
 	 */
 	public class PinkGhost extends Ghosts 
 	{
-		
+		private var stopChaseTimer : Timer = new Timer(5000);
 		public function PinkGhost() 
 		{
 			ghostArt = new GhostPink();
+			chaseTime = 8;
+			runTime = 4;
 		}
 		
 		override protected function preBehavior():void 
@@ -25,7 +28,18 @@ package Ghost
 			}else if (hitTestAlert(4) == false) {
 				preDirection = 4;
 			}
-			else { currentTask = 1; }
+			else { currentTask = 1; finiteStateTimer.start(); }
+		}
+		override protected function chasePacman(r : int):void 
+		{
+			super.chasePacman(r);
+			if (stopChaseTimer.currentCount == 1) {
+				followingPlayer = false;
+				//_preDirection = Math.floor(4 * Math.random());
+				stopChaseTimer.reset();
+				stopChaseTimer.start();
+				trace("anus");
+			}
 		}
 		
 	}

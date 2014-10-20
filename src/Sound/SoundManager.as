@@ -27,44 +27,44 @@ package Sound
 		private static var allUrls : Array = [];
 		private static var allSounds : Array = [];
 		
-		
-		
 		public static function loadSounds() : void 
 		{
 			allUrls.push(new URLRequest("http://vocaroo.com/media_command.php?media=s0ETrEMQ8xl4&command=download_mp3")); // Start Sound
 			allUrls.push(new URLRequest("http://vocaroo.com/media_command.php?media=s08KsNc1Jn97&command=download_mp3")); // wakka wakka Sound
 			allUrls.push(new URLRequest("http://vocaroo.com/media_command.php?media=s0YVMXhlb9xR&command=download_mp3")); // Siren Sound
 			
-			for (var i : int = 0; i < allUrls.length; i++) {
-				var sound : Sound = new Sound();
-				sound.load(allUrls[i]);
-				if(sound.bytesLoaded == sound.bytesTotal){
-					allSounds.push(sound);
-					if (allSounds.length == allUrls.length) {
-						allSoundsLoaded = true;
+			if(allUrls.length > 0){
+				for (var i : int = 0; i < allUrls.length; i++) {
+					var sound : Sound = new Sound();
+					sound.load(allUrls[i]);
+					if(sound.bytesLoaded == sound.bytesTotal){
+						allSounds.push(sound);
+						if (allSounds.length == allUrls.length) {
+							allSoundsLoaded = true;
+						}
 					}
 				}
-			}
-			
+			}else { allSoundsLoaded = true; }
 		}
 		public static function playSound(soundInt : int) : void {
 			
 			var sound : Sound = new Sound();
 			
 			sound = allSounds[soundInt];
-			
-			if (currentSound != sound) {
-				currentSound = sound;
-				if (sound == allSounds[SIREN]) {
-					var trans : SoundTransform = new SoundTransform(0.2);
-					musicChannel = sound.play(290, 99999,trans);
-				}else{
+			if (sound != null){
+				if (currentSound != sound) {
+					currentSound = sound;
+					if (sound == allSounds[SIREN]) {
+						var trans : SoundTransform = new SoundTransform(0.2);
+						musicChannel = sound.play(290, 99999,trans);
+					}else{
+						soundChannel = sound.play();
+					}
+				}else {
+					soundChannel.stop();
 					soundChannel = sound.play();
+					currentSound = null;
 				}
-			}else {
-				soundChannel.stop();
-				soundChannel = sound.play();
-				currentSound = null;
 			}
 		}
 		public static function stopSound() :void {
