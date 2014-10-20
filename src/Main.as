@@ -11,7 +11,7 @@ package
 	 */
 	public class Main extends Sprite 
 	{
-		private var level1 : Level = new Level();
+		private var level : Level = new Level();
 		
 		public function Main():void 
 		{
@@ -30,7 +30,7 @@ package
 		{
 			if (SoundManager.allSoundsLoaded) {
 				removeEventListener(Event.ENTER_FRAME, start);
-				addChild(level1);
+				addChild(level);
 			}
 		}
 		

@@ -21,7 +21,7 @@ package Sound
 		
 		private static var soundChannel : SoundChannel = new SoundChannel();
 		private static var musicChannel : SoundChannel = new SoundChannel();
-		
+		private static var totalSoundsLoaded : int = 0;
 		private static var currentSound : Sound = null;
 		
 		private static var allUrls : Array = [];
@@ -33,23 +33,25 @@ package Sound
 			allUrls.push(new URLRequest("http://vocaroo.com/media_command.php?media=s08KsNc1Jn97&command=download_mp3")); // wakka wakka Sound
 			allUrls.push(new URLRequest("http://vocaroo.com/media_command.php?media=s0YVMXhlb9xR&command=download_mp3")); // Siren Sound
 			
-			if(allUrls.length > 0){
-				for (var i : int = 0; i < allUrls.length; i++) {
-					var sound : Sound = new Sound();
-					sound.load(allUrls[i]);
-					if(sound.bytesLoaded == sound.bytesTotal){
-						allSounds.push(sound);
-						if (allSounds.length == allUrls.length) {
-							allSoundsLoaded = true;
-						}
-					}
-				}
-			}else { allSoundsLoaded = true; }
+			for (var i : int = 0; i < allUrls.length; i++) {
+				var sound : Sound = new Sound();
+				sound.addEventListener(Event.COMPLETE, soundLoaded);
+				sound.load(allUrls[i]);
+				allSounds.push(sound);
+			}
+		}
+		
+		static private function soundLoaded(e:Event):void 
+		{
+			e.target.removeEventListener(Event.COMPLETE, soundLoaded);
+			totalSoundsLoaded += 1;
+			if (totalSoundsLoaded == allUrls.length) {
+				allSoundsLoaded = true;
+			}
 		}
 		public static function playSound(soundInt : int) : void {
 			
 			var sound : Sound = new Sound();
-			
 			sound = allSounds[soundInt];
 			if (sound != null){
 				if (currentSound != sound) {

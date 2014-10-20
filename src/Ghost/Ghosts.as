@@ -79,7 +79,7 @@ package Ghost
 				//als timer 0 = dan zet timer aan. na timer verander naar wegren modus ofzo idk <3
 				chasePacman(1);
 			}else if (_currentTask == 2) { 
-				chasePacman ( -1); 
+				chasePacman (-1); 
 			} // run function
 			//task
 			//else

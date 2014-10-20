@@ -19,7 +19,7 @@ package Ghost
 		override protected function preBehavior():void 
 		{
 			while(this.x%16 != 0 && direction == 0){
-				this.x -= 1;
+				this.x += 1;
 			}
 			if (hitTestAlert(2) == false && direction != 3 && direction != 4) {
 				preDirection = 2;
@@ -28,17 +28,15 @@ package Ghost
 			}else if (hitTestAlert(4) == false) {
 				preDirection = 4;
 			}
-			else { currentTask = 1; finiteStateTimer.start(); }
+			else { currentTask = 1; finiteStateTimer.start(); allowedInChamber = false;}
 		}
 		override protected function chasePacman(r : int):void 
 		{
 			super.chasePacman(r);
 			if (stopChaseTimer.currentCount == 1) {
 				followingPlayer = false;
-				//_preDirection = Math.floor(4 * Math.random());
 				stopChaseTimer.reset();
 				stopChaseTimer.start();
-				trace("anus");
 			}
 		}
 		

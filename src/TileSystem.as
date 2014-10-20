@@ -234,9 +234,10 @@ package
 			var i:int, l:int, cur:DisplayObject;
 			l = this.numChildren;
 			trace(l);
-			for ( i = 0; i < l; i++ ) {
+			for ( i = l - 1; i >= 0; i--) {
+				cur = this.getChildAt( i );
+				
 				if(cur is Sprite){
-					cur = this.getChildAt( i );
 					removeChild(cur);
 				}
 			}
