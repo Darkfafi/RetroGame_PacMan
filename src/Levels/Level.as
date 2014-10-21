@@ -16,9 +16,9 @@ package Levels
 	public class Level extends MovieClip
 	{
 		public var tileSystem : TileSystem = new TileSystem();
-		private var timerCountdown : Timer = new Timer(2200,2);
+		private var timerCountdown : Timer;
 		private var gameRunning : Boolean = false;
-		private var ui : UI = new UI();
+		private var ui : UI;
 		
 		private var readyText : TextField = new TextField();
 		private var playerOneText : TextField = new TextField();
@@ -31,9 +31,17 @@ package Levels
 		private function init(e:Event):void 
 		{
 			removeEventListener(Event.ADDED_TO_STAGE, init);
-			stage.addEventListener(TileSystem.NEXT_LEVEN, nextLevel);
+			begingGame();
+		}
+		
+		private function begingGame():void 
+		{
+			SoundManager.stopSound();
 			stage.addEventListener(UI.GAME_OVER, gameOver);
+			stage.addEventListener(TileSystem.NEXT_LEVEN, nextLevel);
 			SoundManager.playSound(SoundManager.START_SOUND);
+			timerCountdown = new Timer(2200,2);
+			ui = new UI();
 			startLevel();
 			
 			readyText.text = "READY!";
@@ -88,9 +96,14 @@ package Levels
 		}
 		private function gameOver(e : Event) :void {
 			trace("GAME OVER");
-			gameRunning = false;
+			stage.removeEventListener(TileSystem.NEXT_LEVEN, nextLevel);
+			stage.removeEventListener(UI.GAME_OVER, gameOver);
 			removeEventListener(Event.ENTER_FRAME, loop);
+			gameRunning = false;
 			tileSystem.destroy();
+			stage.removeChild(ui);
+			begingGame();
+			
 		}
 		private function onTik(e:TimerEvent):void 
 		{
