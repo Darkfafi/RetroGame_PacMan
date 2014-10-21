@@ -17,6 +17,10 @@ package Ghost
 		override protected function preBehavior():void 
 		{
 			if(allowedInChamber){
+				if (!moving && preDirection == 0 && direction == 0) {
+					beginCounter = 0;
+				}
+				
 				while(this.x%16 != 0 && direction == 0){
 					this.x += 1;
 				}
@@ -54,7 +58,7 @@ package Ghost
 					preDirection = 1;
 				}else if (hitTestAlert(4) == false) { 
 					preDirection = 4; 
-				}else { currentTask = 1; finiteStateTimer.start(); beginCounter = 0; allowedInChamber = true; }
+				}else { currentTask = 1; finiteStateTimer.start(); }
 			}
 		}
 		

@@ -54,7 +54,6 @@ package
 		
 		protected override function animate(animDir : int) :void {
 			switch(animDir) {
-				
 				case 1:
 					art.rotation = 180;
 					break;

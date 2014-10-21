@@ -214,15 +214,12 @@ package
 							ghosts[k].x = j * 16 - tileWidth / 2;
 							ghosts[k].y = i * 16;
 							ghosts[k].followingPlayer = true;
-							ghosts[k]._direction = 0;
-							ghosts[k].currentTask = 0;
-							ghosts[k]._preDirection = 0;
+							ghosts[k].beginState();
 						}
 						if (tileWorld[i][j] == 2) {
 							player.x = j * 16 - tileWidth / 2;
 							player.y = i * 16;
-							player._direction = 0;
-							player._preDirection = 0;
+							player.beginState();
 						}
 					}
 			}

@@ -84,6 +84,12 @@ package Ghost
 			//task
 			//else
 		}
+		override public function beginState():void 
+		{
+			super.beginState();
+			allowedInChamber = true;
+			_currentTask = 0;
+		}
 		protected function preBehavior() : void {
 			// hier gaat het gedrag in wat de spook doet aan het begin van het spel;		
 		}

@@ -45,6 +45,12 @@ package
 			removeEventListener(Event.ADDED_TO_STAGE, init);
 			///voer de drawobject functie hier uit411212
 		}
+		public function beginState() :void {
+			moving = false;
+			direction = 0;
+			preDirection = 0
+			art.gotoAndStop(1);
+		}
 		protected function drawObject(_sprite : MovieClip) :void {
 			
 			art = _sprite;
@@ -154,17 +160,5 @@ package
 			}
 			return false;
 		}
-		
-		public function set _preDirection(value:int):void 
-		{
-			preDirection = value;
-		}
-		
-		public function set _direction(value:int):void 
-		{
-			direction = value;
-		}
-		
 	}
-
 }
