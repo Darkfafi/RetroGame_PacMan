@@ -29,11 +29,11 @@ package Sound
 		
 		public static function loadSounds() : void 
 		{
-			/*
-			allUrls.push(new URLRequest("http://vocaroo.com/media_command.php?media=s0ETrEMQ8xl4&command=download_mp3")); // Start Sound
-			allUrls.push(new URLRequest("http://vocaroo.com/media_command.php?media=s08KsNc1Jn97&command=download_mp3")); // wakka wakka Sound
-			allUrls.push(new URLRequest("http://vocaroo.com/media_command.php?media=s0YVMXhlb9xR&command=download_mp3")); // Siren Sound
-			*/
+			
+			allUrls.push(new URLRequest("http://15826.hosts.ma-cloud.nl/Leerjaar2/gapErwin/Retro_Game/bin/sounds/GameStart.mp3")); // Start Sound
+			allUrls.push(new URLRequest("http://15826.hosts.ma-cloud.nl/Leerjaar2/gapErwin/Retro_Game/bin/sounds/Wakaedit.mp3")); // wakka wakka Sound
+			allUrls.push(new URLRequest("http://15826.hosts.ma-cloud.nl/Leerjaar2/gapErwin/Retro_Game/bin/sounds/alarmEdit.mp3")); // Siren Sound
+				
 			for (var i : int = 0; i < allUrls.length; i++) {
 				var sound : Sound = new Sound();
 				sound.addEventListener(Event.COMPLETE, soundLoaded);

@@ -232,7 +232,8 @@ package
 			l = this.numChildren;
 			trace(l);
 			for ( i = l - 1; i >= 0; i--) {
-				cur = this.getChildAt( i );
+				
+				cur = this.getChildAt(i);
 				
 				if(cur is Sprite){
 					removeChild(cur);

@@ -17,6 +17,8 @@ package
 	 */
 	public class UI extends Sprite
 	{
+		public static const GAME_OVER : String = "gameOver";
+		
 		public var _uiFont : TextFormat = new TextFormat();
 		
 		private var _scoreDisplay : TextField = new TextField();
@@ -133,8 +135,9 @@ package
 				livesDisplayObjects.push(liveDis);
 			}
 			if (lives <= 0) {
-				//test
-				fscommand('quit');
+				stage.removeEventListener(Player.EAT_COOKIE, ateCookie);
+				innerHighscore.flush();
+				dispatchEvent(new Event(GAME_OVER, true));
 			}
 		}
 		

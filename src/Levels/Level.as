@@ -32,6 +32,7 @@ package Levels
 		{
 			removeEventListener(Event.ADDED_TO_STAGE, init);
 			stage.addEventListener(TileSystem.NEXT_LEVEN, nextLevel);
+			stage.addEventListener(UI.GAME_OVER, gameOver);
 			SoundManager.playSound(SoundManager.START_SOUND);
 			startLevel();
 			
@@ -85,7 +86,12 @@ package Levels
 			tileSystem.destroy();
 			startLevel();
 		}
-		
+		private function gameOver(e : Event) :void {
+			trace("GAME OVER");
+			gameRunning = false;
+			removeEventListener(Event.ENTER_FRAME, loop);
+			tileSystem.destroy();
+		}
 		private function onTik(e:TimerEvent):void 
 		{
 			var t : Timer = e.target as Timer;
