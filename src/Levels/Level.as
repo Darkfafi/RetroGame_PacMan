@@ -9,6 +9,7 @@ package Levels
 	import flash.utils.Timer;
 	import Ghost.Ghosts;
 	import Sound.SoundManager;
+	import flash.utils.setTimeout;
 	/**
 	 * ...
 	 * @author Ramses di Perna
@@ -54,6 +55,7 @@ package Levels
 			trace(format.size);
 			
 			readyText.setTextFormat(format);
+			readyText.defaultTextFormat = format;
 			playerOneText.setTextFormat(format);
 			
 			playerOneText.width = stage.stageWidth/2;
@@ -95,15 +97,25 @@ package Levels
 			startLevel();
 		}
 		private function gameOver(e : Event) :void {
-			trace("GAME OVER");
+			removeEventListener(Event.ENTER_FRAME, loop);
 			stage.removeEventListener(TileSystem.NEXT_LEVEN, nextLevel);
 			stage.removeEventListener(UI.GAME_OVER, gameOver);
-			removeEventListener(Event.ENTER_FRAME, loop);
+			readyText.text = "Game Over";
+			readyText.width = 400;
+			for (var i : uint = 0; i < tileSystem.ghosts.length; i++) {
+				tileSystem.ghosts[i].visible = false;
+			}
+			readyText.x = stage.stageWidth / 2.8; 
+			
+			readyText.textColor = 0xFF0000;
 			gameRunning = false;
+			setTimeout(reset, 2500);
+		}
+		
+		private function reset():void {
 			tileSystem.destroy();
 			stage.removeChild(ui);
 			begingGame();
-			
 		}
 		private function onTik(e:TimerEvent):void 
 		{
@@ -147,8 +159,8 @@ package Levels
 				for (var i : uint = 0; i < tileSystem.ghosts.length; i++) {
 					tileSystem.ghosts[i].update(e);
 				}
+				hitTestGhosts();
 			}
-			hitTestGhosts();
 		}
 		
 		private function hitTestGhosts():void 
@@ -158,7 +170,6 @@ package Levels
 				var ghost : Ghosts = tileSystem.ghosts[i];
 				if(TileSystem.player != null){
 					if (ghost.hitTestObject(TileSystem.player.core) == true) {
-						trace("OMG WHAT IS GOING ON! I'M DYING ;-;");
 						pacmanKilled();
 					}
 				}
@@ -171,14 +182,16 @@ package Levels
 			ui.updateLifeDisplay( -1);
 			
 			//pacman death animation
+			
 			tileSystem.placeMoversOrigPos();
 			gameRunning = false;
 			if (!contains(readyText)) {
 				addChild(readyText);
 			}
-			
-			timerCountdown.addEventListener(TimerEvent.TIMER, onTik);
-			timerCountdown.start();
+			if(ui.lives > 0){
+				timerCountdown.addEventListener(TimerEvent.TIMER, onTik);
+				timerCountdown.start();
+			}
 		}
 	}
 

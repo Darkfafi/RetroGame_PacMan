@@ -33,7 +33,7 @@ package
 		private var hightscore : int; // met xml file krijgen. of shared object
 		
 		private var _score : int = 0;
-		private var lives : int = 2;
+		private var _lives : int = 2;
 		
 		
 		
@@ -115,7 +115,7 @@ package
 		}
 		public function updateLifeDisplay(live : int):void {
 			
-			lives += live;
+			_lives += live;
 			
 			for (var l : int = 0; l < livesDisplayObjects.length; l++) {
 				removeChild(livesDisplayObjects[l]);
@@ -123,7 +123,7 @@ package
 			
 			livesDisplayObjects = [];
 			
-			for (var i : int = 0; i < lives; i++) {
+			for (var i : int = 0; i < _lives; i++) {
 				
 				var liveDis : MovieClip = new PacManWalk();
 				liveDis.gotoAndStop(4);
@@ -134,11 +134,16 @@ package
 				liveDis.y = stage.stageHeight - 15;
 				livesDisplayObjects.push(liveDis);
 			}
-			if (lives <= 0) {
+			if (_lives <= 0) {
 				stage.removeEventListener(Player.EAT_COOKIE, ateCookie);
 				innerHighscore.flush();
 				dispatchEvent(new Event(GAME_OVER, true));
 			}
+		}
+		
+		public function get lives():int 
+		{
+			return _lives;
 		}
 		
 	}
