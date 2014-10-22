@@ -36,6 +36,15 @@ package
 		private var _lives : int = 2;
 		
 		
+		[Embed(source="../bin/lib/PRESS START REGULAR.TTF", 
+		fontName = "PressStart", 
+		mimeType = "application/x-font", 
+		fontWeight="normal", 
+		fontStyle="normal", 
+		advancedAntiAliasing="true", 
+		embedAsCFF="false")]
+		
+		private var PrssStart : Class;
 		
 		public function UI() 
 		{
@@ -89,10 +98,10 @@ package
 		private function setFont() :void {
 			
 			_uiFont.color = 0xEEEEEE;
-			_uiFont.font = "Press Start";
-			_scoreDisplay.embedFonts;
-			_highScoreDisplay.embedFonts;
-			_highScoreText.embedFonts;
+			_uiFont.font = "PressStart";
+			_scoreDisplay.embedFonts = true;
+			_highScoreDisplay.embedFonts = true;
+			_highScoreText.embedFonts = true;
 		}
 		private function ateCookie(c:CookieEvent):void 
 		{
@@ -107,8 +116,8 @@ package
 				updateLifeDisplay(1);
 			}
 			if (_score > hightscore) {
-				innerHighscore.data.score = _score;
-				hightscore = innerHighscore.data.score;
+				//innerHighscore.data.score = _score;
+				hightscore = _score;//innerHighscore.data.score;
 				_highScoreDisplay.text = hightscore.toString();
 				//end game flush gebruiken om highscore op te slaan.
 			}
@@ -136,6 +145,7 @@ package
 			}
 			if (_lives <= 0) {
 				stage.removeEventListener(Player.EAT_COOKIE, ateCookie);
+				innerHighscore.data.score = hightscore;
 				innerHighscore.flush();
 				dispatchEvent(new Event(GAME_OVER, true));
 			}

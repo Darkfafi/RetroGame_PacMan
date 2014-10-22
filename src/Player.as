@@ -14,6 +14,7 @@ package
 	 */
 	public class Player extends MovingObject
 	{
+		//als je fruitje pakt. visible pacman is false. the score.visible bijv "100" is true. de score is altijd in het spel en word niet op het moment geaddchild. 
 		//cookies
 		private var cookies : Array;
 		public static const EAT_COOKIE : String = "eatCookie";

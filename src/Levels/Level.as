@@ -21,8 +21,19 @@ package Levels
 		private var gameRunning : Boolean = false;
 		private var ui : UI;
 		
+		[Embed(source="../../bin/lib/PRESS START REGULAR.TTF", 
+		fontName = "PressStart", 
+		mimeType = "application/x-font", 
+		fontWeight="normal", 
+		fontStyle="normal", 
+		advancedAntiAliasing="true", 
+		embedAsCFF="false")]
+		
+		private var PrssStart : Class;
+		
 		private var readyText : TextField = new TextField();
 		private var playerOneText : TextField = new TextField();
+		
 		
 		public function Level() 
 		{
@@ -50,13 +61,16 @@ package Levels
 			
 			var format : TextFormat = new TextFormat(null,15);
 			
-			format.font = "Press Start";
+			format.font = "PressStart";
 			
 			trace(format.size);
 			
 			readyText.setTextFormat(format);
 			readyText.defaultTextFormat = format;
 			playerOneText.setTextFormat(format);
+			
+			playerOneText.embedFonts = true;
+			readyText.embedFonts = true;
 			
 			playerOneText.width = stage.stageWidth/2;
 			
@@ -109,6 +123,9 @@ package Levels
 			
 			readyText.textColor = 0xFF0000;
 			gameRunning = false;
+			
+			//pacman death animation in his own frames.
+			
 			setTimeout(reset, 2500);
 		}
 		
@@ -183,12 +200,12 @@ package Levels
 			
 			//pacman death animation
 			
-			tileSystem.placeMoversOrigPos();
 			gameRunning = false;
 			if (!contains(readyText)) {
 				addChild(readyText);
 			}
-			if(ui.lives > 0){
+			if (ui.lives > 0) {
+				tileSystem.placeMoversOrigPos();
 				timerCountdown.addEventListener(TimerEvent.TIMER, onTik);
 				timerCountdown.start();
 			}
