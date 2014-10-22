@@ -147,7 +147,6 @@ package
 				stage.removeEventListener(Player.EAT_COOKIE, ateCookie);
 				innerHighscore.data.score = hightscore;
 				innerHighscore.flush();
-				dispatchEvent(new Event(GAME_OVER, true));
 			}
 		}
 		

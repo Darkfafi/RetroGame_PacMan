@@ -16,6 +16,7 @@ package Sound
 		public static const START_SOUND : int = 0;
 		public static const EAT_DOT_SOUND : int = 1;
 		public static const SIREN : int = 2;
+		public static const PAC_DEATH : int = 3;
 		
 		public static var allSoundsLoaded : Boolean = false;
 		
@@ -33,6 +34,7 @@ package Sound
 			allUrls.push(new URLRequest("http://15826.hosts.ma-cloud.nl/Leerjaar2/gapErwin/Retro_Game/bin/sounds/GameStart.mp3")); // Start Sound
 			allUrls.push(new URLRequest("http://15826.hosts.ma-cloud.nl/Leerjaar2/gapErwin/Retro_Game/bin/sounds/Wakaedit.mp3")); // wakka wakka Sound
 			allUrls.push(new URLRequest("http://15826.hosts.ma-cloud.nl/Leerjaar2/gapErwin/Retro_Game/bin/sounds/alarmEdit.mp3")); // Siren Sound
+			allUrls.push(new URLRequest("http://15826.hosts.ma-cloud.nl/Leerjaar2/gapErwin/Retro_Game/bin/sounds/PacmanDies.mp3")); // Pacman dies Sound
 			
 			for (var i : int = 0; i < allUrls.length; i++) {
 				var sound : Sound = new Sound();

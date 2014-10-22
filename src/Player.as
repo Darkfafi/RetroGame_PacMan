@@ -18,6 +18,7 @@ package
 		//cookies
 		private var cookies : Array;
 		public static const EAT_COOKIE : String = "eatCookie";
+		public static const DEATH : String = "death";
 		
 		public function Player(cookies : Array) 
 		{
@@ -75,10 +76,31 @@ package
 			super.update(e);
 			
 			eatCookie();
-			
-			if (moving == false && art_playing == false && direction != 0) {
-				art.gotoAndStop(5);
+			if (art.currentFrame == 5) {
+				art.gotoAndPlay(1);
 			}
+			if (moving == false && art_playing == false && direction != 0) {
+				stopAnim();
+			}
+		}
+		public function stopAnim() {
+			art.gotoAndStop(5);
+		}
+		private function endAnime(e:Event):void 
+		{
+			if(art.currentFrame == art.totalFrames){
+				stage.removeEventListener(Event.ENTER_FRAME, endAnime);
+				art.gotoAndStop(1);
+				this.visible = false;
+				dispatchEvent(new Event(DEATH, true));
+			}
+		}
+		public function playDeathAnimation() :void {
+			art.gotoAndPlay(6);
+			trace("fgdfg");
+			art.rotation = 270;
+			SoundManager.playSound(SoundManager.PAC_DEATH);
+			stage.addEventListener(Event.ENTER_FRAME, endAnime);
 		}
 		
 		private function eatCookie():void 

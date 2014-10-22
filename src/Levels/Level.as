@@ -49,7 +49,7 @@ package Levels
 		private function begingGame():void 
 		{
 			SoundManager.stopSound();
-			stage.addEventListener(UI.GAME_OVER, gameOver);
+			
 			stage.addEventListener(TileSystem.NEXT_LEVEN, nextLevel);
 			SoundManager.playSound(SoundManager.START_SOUND);
 			timerCountdown = new Timer(2200,2);
@@ -86,6 +86,7 @@ package Levels
 			addChild(playerOneText);
 			addChild(readyText);
 		}
+		
 		private function startLevel() :void {
 			gameRunning = false;
 			
@@ -110,29 +111,45 @@ package Levels
 			tileSystem.destroy();
 			startLevel();
 		}
-		private function gameOver(e : Event) :void {
+		private function gameOver() :void {
 			removeEventListener(Event.ENTER_FRAME, loop);
 			stage.removeEventListener(TileSystem.NEXT_LEVEN, nextLevel);
-			stage.removeEventListener(UI.GAME_OVER, gameOver);
 			readyText.text = "Game Over";
 			readyText.width = 400;
-			for (var i : uint = 0; i < tileSystem.ghosts.length; i++) {
-				tileSystem.ghosts[i].visible = false;
-			}
 			readyText.x = stage.stageWidth / 2.8; 
 			
 			readyText.textColor = 0xFF0000;
+			addChild(readyText);
 			gameRunning = false;
-			
-			//pacman death animation in his own frames.
-			
 			setTimeout(reset, 2500);
 		}
 		
 		private function reset():void {
+			TileSystem.player.visible = true;
 			tileSystem.destroy();
 			stage.removeChild(ui);
 			begingGame();
+		}
+		private function deathAnimEnd(e:Event):void 
+		{
+			stage.removeEventListener(Player.DEATH, deathAnimEnd);
+			if(ui.lives <= 0){
+				gameOver();
+			}else { nexTry();}
+		}
+		
+		private function nexTry():void 
+		{
+			tileSystem.placeMoversOrigPos();
+			TileSystem.player.visible = true;
+			if (!contains(readyText)) {
+				addChild(readyText);
+			}
+			
+			if (ui.lives > 0) {
+				timerCountdown.addEventListener(TimerEvent.TIMER, onTik);
+				timerCountdown.start();
+			}
 		}
 		private function onTik(e:TimerEvent):void 
 		{
@@ -195,20 +212,23 @@ package Levels
 		
 		private function pacmanKilled():void 
 		{
+			stage.addEventListener(Player.DEATH, deathAnimEnd);
 			SoundManager.stopSound();
-			ui.updateLifeDisplay( -1);
-			
-			//pacman death animation
+			ui.updateLifeDisplay(-1);
 			
 			gameRunning = false;
-			if (!contains(readyText)) {
-				addChild(readyText);
+			TileSystem.player.stopAnim();
+			setTimeout(playDeathAnim,2000);
+		}
+		
+		private function playDeathAnim():void 
+		{
+			for (var i : int = 0; i < tileSystem.ghosts.length; i++) {
+				tileSystem.ghosts[i].visible = false;
+				tileSystem.ghosts[i].x = 10000;
 			}
-			if (ui.lives > 0) {
-				tileSystem.placeMoversOrigPos();
-				timerCountdown.addEventListener(TimerEvent.TIMER, onTik);
-				timerCountdown.start();
-			}
+			
+			TileSystem.player.playDeathAnimation();
 		}
 	}
 
