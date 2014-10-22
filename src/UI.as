@@ -134,12 +134,12 @@ package
 			
 			for (var i : int = 0; i < _lives; i++) {
 				
-				var liveDis : MovieClip = new PacManWalk();
+				var liveDis : MovieClip = new PacmanFull();
 				liveDis.gotoAndStop(4);
-				liveDis.scaleX = 0.7;
-				liveDis.scaleY = 0.7;
+				liveDis.scaleX = 0.4;
+				liveDis.scaleY = 0.4;
 				addChild(liveDis);
-				liveDis.x = (i * 30) + 30;
+				liveDis.x = (i * 25) + 30;
 				liveDis.y = stage.stageHeight - 15;
 				livesDisplayObjects.push(liveDis);
 			}

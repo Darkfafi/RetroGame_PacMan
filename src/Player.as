@@ -28,12 +28,12 @@ package
 		{
 			removeEventListener(Event.ADDED_TO_STAGE, init);
 			
-			var pacmanArt : MovieClip = new PacManWalk();
+			var pacmanArt : MovieClip = new PacmanFull();
 			
 			drawObject(pacmanArt);
 			
-			art.scaleX = 0.75;
-			art.scaleY = 0.75;
+			art.scaleX = 0.4;
+			art.scaleY = 0.4;
 			
 			stage.addEventListener(KeyboardEvent.KEY_DOWN, keyDown);
 		}
