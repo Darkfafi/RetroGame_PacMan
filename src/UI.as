@@ -33,7 +33,7 @@ package
 		private var hightscore : int; // met xml file krijgen. of shared object
 		
 		private var _score : int = 0;
-		private var _lives : int = 2;
+		private var _lives : int = 3;
 		
 		
 		[Embed(source="../bin/lib/PRESS START REGULAR.TTF", 
@@ -90,8 +90,8 @@ package
 			_highScoreDisplay.x = _highScoreText.x + 40;
 			_highScoreDisplay.y = _scoreDisplay.y;
 			
-			updateLifeDisplay(0);
-			
+			updateLifeDisplay();
+			lives -= 1;
 			stage.addEventListener(Player.EAT_COOKIE, ateCookie);
 		}
 		
@@ -113,7 +113,8 @@ package
 			_scoreDisplay.text = "SCORE : " + _score;
 			
 			if (_score % 10000 == 0) {
-				updateLifeDisplay(1);
+				lives += 1;
+				updateLifeDisplay();
 			}
 			if (_score > hightscore) {
 				//innerHighscore.data.score = _score;
@@ -122,9 +123,9 @@ package
 				//end game flush gebruiken om highscore op te slaan.
 			}
 		}
-		public function updateLifeDisplay(live : int):void {
+		public function updateLifeDisplay():void {
 			
-			_lives += live;
+			//_lives += live;
 			
 			for (var l : int = 0; l < livesDisplayObjects.length; l++) {
 				removeChild(livesDisplayObjects[l]);
@@ -143,7 +144,7 @@ package
 				liveDis.y = stage.stageHeight - 15;
 				livesDisplayObjects.push(liveDis);
 			}
-			if (_lives <= 0) {
+			if (_lives < 0) {
 				stage.removeEventListener(Player.EAT_COOKIE, ateCookie);
 				innerHighscore.data.score = hightscore;
 				innerHighscore.flush();
@@ -153,6 +154,11 @@ package
 		public function get lives():int 
 		{
 			return _lives;
+		}
+		
+		public function set lives(value:int):void 
+		{
+			_lives = value;
 		}
 		
 	}

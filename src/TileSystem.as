@@ -151,6 +151,7 @@ package
 						player.x = j * 16 - tileWidth / 2;
 						player.y = i * 16;
 						addChild(player);
+						player.visible = false;
 						
 					}else if (tileWorld[i][j] == 4) {
 						//if ghosts.length == 0 red else other color else other color

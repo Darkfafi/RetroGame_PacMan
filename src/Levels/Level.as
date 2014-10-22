@@ -54,6 +54,7 @@ package Levels
 			SoundManager.playSound(SoundManager.START_SOUND);
 			timerCountdown = new Timer(2200,2);
 			ui = new UI();
+			
 			startLevel();
 			
 			readyText.text = "READY!";
@@ -121,7 +122,7 @@ package Levels
 			readyText.textColor = 0xFF0000;
 			addChild(readyText);
 			gameRunning = false;
-			setTimeout(reset, 2500);
+			setTimeout(reset, 2000);
 		}
 		
 		private function reset():void {
@@ -133,7 +134,7 @@ package Levels
 		private function deathAnimEnd(e:Event):void 
 		{
 			stage.removeEventListener(Player.DEATH, deathAnimEnd);
-			if(ui.lives <= 0){
+			if(ui.lives < 0){
 				gameOver();
 			}else { nexTry();}
 		}
@@ -141,12 +142,11 @@ package Levels
 		private function nexTry():void 
 		{
 			tileSystem.placeMoversOrigPos();
-			TileSystem.player.visible = true;
 			if (!contains(readyText)) {
 				addChild(readyText);
 			}
 			
-			if (ui.lives > 0) {
+			if (ui.lives >= 0) {
 				timerCountdown.addEventListener(TimerEvent.TIMER, onTik);
 				timerCountdown.start();
 			}
@@ -157,6 +157,8 @@ package Levels
 			
 			switch(t.currentCount) {				
 				case 1:
+				ui.updateLifeDisplay();
+				TileSystem.player.visible = true;
 				if(contains(playerOneText)){
 					removeChild(playerOneText);
 				}
@@ -167,6 +169,7 @@ package Levels
 				break;
 					
 				case 2:
+				
 				//remove ready text like origenal pacman and start game
 				removeChild(readyText);
 				
@@ -214,11 +217,11 @@ package Levels
 		{
 			stage.addEventListener(Player.DEATH, deathAnimEnd);
 			SoundManager.stopSound();
-			ui.updateLifeDisplay(-1);
+			ui.lives -= 1;
 			
 			gameRunning = false;
 			TileSystem.player.stopAnim();
-			setTimeout(playDeathAnim,2000);
+			setTimeout(playDeathAnim,1000);
 		}
 		
 		private function playDeathAnim():void 
