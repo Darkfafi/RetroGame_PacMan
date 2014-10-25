@@ -57,6 +57,9 @@ package Ghost
 			ghostArt.scaleX = 2;
 			ghostArt.scaleY = 2;
 			
+			deadGhostArt.scaleX = 2;
+			deadGhostArt.scaleY = 2;
+			
 			finiteStateTimer = new Timer(chaseTime * 1000);
 			
 			finiteStateTimer.addEventListener(TimerEvent.TIMER, switchState);
