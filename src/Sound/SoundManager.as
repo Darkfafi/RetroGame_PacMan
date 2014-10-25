@@ -59,6 +59,7 @@ package Sound
 			
 			var sound : Sound = new Sound();
 			sound = allSounds[soundInt];
+			
 			if (sound != null){
 				if (currentSound != sound) {
 					currentSound = sound;

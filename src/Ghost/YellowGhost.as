@@ -59,7 +59,7 @@ package Ghost
 					preDirection = 3;
 				}else if (hitTestAlert(4) == false) { 
 					preDirection = 4; 
-				}else { currentTask = 1; finiteStateTimer.start(); }
+				}else { currentTask = 1; finiteStateTimer.start(); beginCounter = 0;}
 			}
 		}
 	}

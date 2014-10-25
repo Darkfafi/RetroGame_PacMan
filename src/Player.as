@@ -1,5 +1,7 @@
 package  
 {
+	import Assets.Cookie;
+	import Assets.LargeCookie;
 	import Assets.PackmanCore;
 	import Assets.Wall;
 	import Events.CookieEvent;
@@ -83,7 +85,7 @@ package
 				stopAnim();
 			}
 		}
-		public function stopAnim() {
+		public function stopAnim() :void {
 			art.gotoAndStop(5);
 		}
 		private function endAnime(e:Event):void 
@@ -97,7 +99,6 @@ package
 		}
 		public function playDeathAnimation() :void {
 			art.gotoAndPlay(6);
-			trace("fgdfg");
 			art.rotation = 270;
 			SoundManager.playSound(SoundManager.PAC_DEATH);
 			stage.addEventListener(Event.ENTER_FRAME, endAnime);
@@ -105,12 +106,15 @@ package
 		
 		private function eatCookie():void 
 		{
-			// If you touch a cookie. Then eat it <3
 			for (var i : int = 0; i < cookies.length; i++) {
 				if (core.hitTestObject(cookies[i])) {
 					var c : CookieEvent = new CookieEvent(Player.EAT_COOKIE,true);
 					c.i = i;
-					c.score = 10 ;
+					if(cookies[i] is Cookie){
+						c.score = 10 ;
+					}else if (cookies[i] is LargeCookie) {
+						c.score = 50;
+					}
 					dispatchEvent(c);
 					SoundManager.playSound(SoundManager.EAT_DOT_SOUND);
 				}

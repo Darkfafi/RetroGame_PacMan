@@ -2,6 +2,7 @@ package
 {
 	import Assets.BackGround;
 	import Assets.Cookie;
+	import Assets.LargeCookie;
 	import Assets.Tile;
 	import Assets.Wall;
 	import Events.CookieEvent;
@@ -28,6 +29,7 @@ package
 		public var tileHight : int = 16;
 		
 		public static const NEXT_LEVEN : String = "nextLevel";
+		public static const GHOSTS_EATABLE : String = "ghostsTurnedEatable";
 		
 		public var cookies : Array = [];
 		
@@ -44,7 +46,7 @@ package
 			[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
 			[1, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 1, 1, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 1],
 			[1, 3, 1, 1, 1, 1, 3, 1, 1, 1, 1, 1, 3, 1, 1, 3, 1, 1, 1, 1, 1, 3, 1, 1, 1, 1, 3, 1],
-			[1, 0, 1, 1, 1, 1, 3, 1, 1, 1, 1, 1, 3, 1, 1, 3, 1, 1, 1, 1, 1, 3, 1, 1, 1, 1, 0, 1],
+			[1, 5, 1, 1, 1, 1, 3, 1, 1, 1, 1, 1, 3, 1, 1, 3, 1, 1, 1, 1, 1, 3, 1, 1, 1, 1, 5, 1],
 			[1, 3, 1, 1, 1, 1, 3, 1, 1, 1, 1, 1, 3, 1, 1, 3, 1, 1, 1, 1, 1, 3, 1, 1, 1, 1, 3, 1],
 			[1, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 1],
 			[1, 3, 1, 1, 1, 1, 3, 1, 1, 3, 1, 1, 1, 1, 1, 1, 1, 1, 3, 1, 1, 3, 1, 1, 1, 1, 3, 1],
@@ -64,7 +66,7 @@ package
 			[1, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 1, 1, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 1],
 			[1, 3, 1, 1, 1, 1, 3, 1, 1, 1, 1, 1, 3, 1, 1, 3, 1, 1, 1, 1, 1, 3, 1, 1, 1, 1, 3, 1],
 			[1, 3, 1, 1, 1, 1, 3, 1, 1, 1, 1, 1, 3, 1, 1, 3, 1, 1, 1, 1, 1, 3, 1, 1, 1, 1, 3, 1],
-			[1, 0, 3, 3, 1, 1, 3, 3, 3, 3, 3, 3, 3, 0, 2, 3, 3, 3, 3, 3, 3, 3, 1, 1, 3, 3, 0, 1],
+			[1, 5, 3, 3, 1, 1, 3, 3, 3, 3, 3, 3, 3, 0, 2, 3, 3, 3, 3, 3, 3, 3, 1, 1, 3, 3, 5, 1],
 			[1, 1, 1, 3, 1, 1, 3, 1, 1, 3, 1, 1, 1, 1, 1, 1, 1, 1, 3, 1, 1, 3, 1, 1, 3, 1, 1, 1],
 			[1, 1, 1, 3, 1, 1, 3, 1, 1, 3, 1, 1, 1, 1, 1, 1, 1, 1, 3, 1, 1, 3, 1, 1, 3, 1, 1, 1],
 			[1, 3, 3, 3, 3, 3, 3, 1, 1, 3, 3, 3, 3, 1, 1, 3, 3, 3, 3, 1, 1, 3, 3, 3, 3, 3, 3, 1],
@@ -97,10 +99,17 @@ package
 				}
 				removeChild(player);
 				player = null;
+				
 				SoundManager.stopSound();
+				
 				background.addEventListener(BackGround.ANIMATION_END, endLevel);
 				background.endAnim();
-				//dispatchEvent(new Event(NEXT_LEVEN, true));
+			}if (c.score == 50) {
+				for (i = ghosts.length - 1; i >= 0; i--) {
+					ghosts[i].turnBackToNormal();
+					ghosts[i].ghostTurnsEatable(6600);
+					dispatchEvent(new Event(GHOSTS_EATABLE, true));
+				}
 			}
 			//add score and add if cookies array == 0 then end game.
 		}
@@ -145,6 +154,13 @@ package
 						addChild(object);
 						cookies.push(object);
 					}
+					else if (tileWorld[i][j] == 5) {
+						object = new LargeCookie();
+						object.x = j * 16;
+						object.y = i * 16;
+						addChild(object);
+						cookies.push(object);
+					}
 					else if (tileWorld[i][j] == 2) {
 						
 						player = new Player(cookies);
@@ -170,6 +186,7 @@ package
 						object.visible = false;
 						ghosts.push(object);
 					}
+					
 					if (cookies.length == 240) {
 						//plaatst ze boven de koekjes....I know okey jezus maar ik had geen ideeën meer! 
 						for (var k : int = 0; k < ghosts.length; k++) {
@@ -193,13 +210,11 @@ package
 				for (var j : int = 0; j < lXRows; j++) {
 					
 					if (tileWorld[i][j] == n) {
-						
 						positionOb = new Point(j * tileWidth, i * tileHight);
 						result.push(positionOb);
 					}
 				}
 			}
-			//trace(result);
 			return result;
 		}
 		public function placeMoversOrigPos() :void {
@@ -231,16 +246,13 @@ package
 
 			var i:int, l:int, cur:DisplayObject;
 			l = this.numChildren;
-			trace(l);
 			for ( i = l - 1; i >= 0; i--) {
 				
 				cur = this.getChildAt(i);
-				
 				if(cur is Sprite){
 					removeChild(cur);
 				}
 			}
-			trace(cookies.length);
 			cur = null;
 			i = l = NaN;	
 		}

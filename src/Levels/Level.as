@@ -19,6 +19,7 @@ package Levels
 		public var tileSystem : TileSystem = new TileSystem();
 		private var timerCountdown : Timer;
 		private var gameRunning : Boolean = false;
+		private var ghostsEatenCounter : int = 0;
 		private var ui : UI;
 		
 		[Embed(source="../../bin/lib/PRESS START REGULAR.TTF", 
@@ -51,6 +52,7 @@ package Levels
 			SoundManager.stopSound();
 			
 			stage.addEventListener(TileSystem.NEXT_LEVEN, nextLevel);
+			stage.addEventListener(TileSystem.GHOSTS_EATABLE, ghostsEatenCounterSet);
 			SoundManager.playSound(SoundManager.START_SOUND);
 			timerCountdown = new Timer(2200,2);
 			ui = new UI();
@@ -63,8 +65,6 @@ package Levels
 			var format : TextFormat = new TextFormat(null,15);
 			
 			format.font = "PressStart";
-			
-			trace(format.size);
 			
 			readyText.setTextFormat(format);
 			readyText.defaultTextFormat = format;
@@ -86,6 +86,11 @@ package Levels
 			
 			addChild(playerOneText);
 			addChild(readyText);
+		}
+		
+		private function ghostsEatenCounterSet(e:Event):void 
+		{
+			ghostsEatenCounter = 0;
 		}
 		
 		private function startLevel() :void {
@@ -115,6 +120,7 @@ package Levels
 		private function gameOver() :void {
 			removeEventListener(Event.ENTER_FRAME, loop);
 			stage.removeEventListener(TileSystem.NEXT_LEVEN, nextLevel);
+			stage.removeEventListener(TileSystem.GHOSTS_EATABLE, ghostsEatenCounterSet);
 			readyText.text = "Game Over";
 			readyText.width = 400;
 			readyText.x = stage.stageWidth / 2.8; 
@@ -207,7 +213,13 @@ package Levels
 				var ghost : Ghosts = tileSystem.ghosts[i];
 				if(TileSystem.player != null){
 					if (ghost.hitTestObject(TileSystem.player.core) == true) {
-						pacmanKilled();
+						if(!ghost.eatAble){
+							pacmanKilled();
+						}else if (ghost.eatAble && !ghost.deadGhost) {
+							ghost.eatGhost();
+							ghostsEatenCounter += 1;
+							ui.ateGhost(ghostsEatenCounter);
+						}
 					}
 				}
 			}
@@ -218,7 +230,9 @@ package Levels
 			stage.addEventListener(Player.DEATH, deathAnimEnd);
 			SoundManager.stopSound();
 			ui.lives -= 1;
-			
+			if (ui.lives < 0) {
+				ui.updateLifeDisplay();
+			}
 			gameRunning = false;
 			TileSystem.player.stopAnim();
 			setTimeout(playDeathAnim,1000);

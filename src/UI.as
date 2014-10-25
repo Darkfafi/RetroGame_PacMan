@@ -107,6 +107,17 @@ package
 		{
 			updateScoreDisplay(c.score)
 		}
+		public function ateGhost(counter : int) :void {
+			var scr : int = 200 * counter;
+			
+			if (counter == 3) {
+				scr = 800;
+			}else if (counter == 4) {
+				scr = 1600;
+			}
+			trace(scr);
+			updateScoreDisplay(scr)
+		}
 		private function updateScoreDisplay(scr : int):void {
 			
 			_score += scr;
@@ -124,8 +135,6 @@ package
 			}
 		}
 		public function updateLifeDisplay():void {
-			
-			//_lives += live;
 			
 			for (var l : int = 0; l < livesDisplayObjects.length; l++) {
 				removeChild(livesDisplayObjects[l]);

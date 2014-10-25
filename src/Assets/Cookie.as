@@ -8,7 +8,6 @@ package Assets
 	 */
 	public class Cookie extends Sprite
 	{
-		
 		public function Cookie() 
 		{
 			graphics.beginFill(0xFFFF00, 1);
