@@ -193,14 +193,16 @@ package Ghost
 			_currentTask = value;
 		}
 		public function ghostTurnsEatable(time : int) :void {
-			eatAble = true;
-			deadGhostArt.gotoAndPlay(1);
-				if (deadGhostArt.visible == false) {
-					art.stop();
-					ghostArt.visible = false;
-					deadGhostArt.visible = true;
-				}
-			changeBackTimer = setTimeout(turningBackToNormal, time - time / 6,time / 6);
+			if(!deadGhost){
+				eatAble = true;
+				deadGhostArt.gotoAndPlay(1);
+					if (deadGhostArt.visible == false) {
+						art.stop();
+						ghostArt.visible = false;
+						deadGhostArt.visible = true;
+					}
+				changeBackTimer = setTimeout(turningBackToNormal, time - time / 6, time / 6);
+			}
 		}
 		private function turningBackToNormal(timeTurnBack : int):void {
 			if(!deadGhost && eatAble){
@@ -210,13 +212,13 @@ package Ghost
 		}
 		public function turnBackToNormal() :void {
 			if (!deadGhost && eatAble) {
-				dispatchEvent(new Event(TURNED_BACK,true));
 				clearTimeout(changeBackTimer);
 				eatAble = false;
 				deadGhost = false;
 				art.visible = true;
 				deadGhostArt.stop();
 				deadGhostArt.visible = false;
+				dispatchEvent(new Event(TURNED_BACK,true));
 			}
 		}
 		public function eatGhost() :void {
@@ -249,6 +251,7 @@ package Ghost
 				art.visible = true;
 				deadGhostArt.stop();
 				deadGhostArt.visible = false;
+				dispatchEvent(new Event(TURNED_BACK,true));
 				_currentTask = 0;
 			}
 			

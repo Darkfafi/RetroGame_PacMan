@@ -99,7 +99,8 @@ package Levels
 						trace(counter);
 					}
 				}
-				if (counter == 3) {
+				if (counter == 4) {
+					SoundManager.stopSound();
 					SoundManager.playSound(SoundManager.SIREN);
 				}
 			}
