@@ -53,6 +53,8 @@ package Levels
 			
 			stage.addEventListener(TileSystem.NEXT_LEVEN, nextLevel);
 			stage.addEventListener(TileSystem.GHOSTS_EATABLE, ghostsEatenCounterSet);
+			stage.addEventListener(Ghosts.TURNED_BACK, checkAllGhostStats);
+			
 			SoundManager.playSound(SoundManager.START_SOUND);
 			timerCountdown = new Timer(2200,2);
 			ui = new UI();
@@ -88,8 +90,24 @@ package Levels
 			addChild(readyText);
 		}
 		
+		private function checkAllGhostStats(e:Event):void {
+			if(gameRunning){
+				var counter : int = 0;
+				for (var i : int = tileSystem.ghosts.length - 1; i >= 0; i--) {
+					if (tileSystem.ghosts[i].eatAble == false || tileSystem.ghosts[i].deadGhost) {
+						counter += 1;
+						trace(counter);
+					}
+				}
+				if (counter == 3) {
+					SoundManager.playSound(SoundManager.SIREN);
+				}
+			}
+		}
+		
 		private function ghostsEatenCounterSet(e:Event):void 
 		{
+			SoundManager.playSound(SoundManager.BLUE_SIREN);
 			ghostsEatenCounter = 0;
 		}
 		
@@ -121,6 +139,8 @@ package Levels
 			removeEventListener(Event.ENTER_FRAME, loop);
 			stage.removeEventListener(TileSystem.NEXT_LEVEN, nextLevel);
 			stage.removeEventListener(TileSystem.GHOSTS_EATABLE, ghostsEatenCounterSet);
+			stage.removeEventListener(Ghosts.TURNED_BACK, checkAllGhostStats);
+			
 			readyText.text = "Game Over";
 			readyText.width = 400;
 			readyText.x = stage.stageWidth / 2.8; 
@@ -217,7 +237,11 @@ package Levels
 							pacmanKilled();
 						}else if (ghost.eatAble && !ghost.deadGhost) {
 							ghost.eatGhost();
+							SoundManager.playSound(SoundManager.EAT_GHOST);
 							ghostsEatenCounter += 1;
+							if (ghostsEatenCounter == 4) {
+								SoundManager.playSound(SoundManager.SIREN);
+							}
 							ui.ateGhost(ghostsEatenCounter);
 						}
 					}
@@ -228,13 +252,13 @@ package Levels
 		private function pacmanKilled():void 
 		{
 			stage.addEventListener(Player.DEATH, deathAnimEnd);
-			SoundManager.stopSound();
 			ui.lives -= 1;
 			if (ui.lives < 0) {
 				ui.updateLifeDisplay();
 			}
 			gameRunning = false;
 			TileSystem.player.stopAnim();
+			SoundManager.stopSound();
 			setTimeout(playDeathAnim,1000);
 		}
 		

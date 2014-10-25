@@ -8,6 +8,7 @@ package Ghost
 	import flash.utils.Timer;
 	import flash.utils.setTimeout;
 	import flash.utils.clearTimeout;
+	import Sound.SoundManager;
 	/**
 	 * ...
 	 * @author Ramses di Perna
@@ -15,6 +16,7 @@ package Ghost
 	public class Ghosts extends MovingObject
 	{
 		//speed = speed * Math.abs(dif.x) / dif.x <---- gebruiken voor links of rechts movement
+		public static const TURNED_BACK : String = "turnedBack";
 		protected var finiteStateTimer : Timer;
 		protected var chaseTime : int;
 		protected var runTime : int;
@@ -205,6 +207,7 @@ package Ghost
 		}
 		public function turnBackToNormal() :void {
 			if (!deadGhost && eatAble) {
+				dispatchEvent(new Event(TURNED_BACK,true));
 				clearTimeout(changeBackTimer);
 				eatAble = false;
 				deadGhost = false;

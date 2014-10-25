@@ -103,7 +103,6 @@ package
 			SoundManager.playSound(SoundManager.PAC_DEATH);
 			stage.addEventListener(Event.ENTER_FRAME, endAnime);
 		}
-		
 		private function eatCookie():void 
 		{
 			for (var i : int = 0; i < cookies.length; i++) {

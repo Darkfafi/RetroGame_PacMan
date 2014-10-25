@@ -17,6 +17,8 @@ package Sound
 		public static const EAT_DOT_SOUND : int = 1;
 		public static const SIREN : int = 2;
 		public static const PAC_DEATH : int = 3;
+		public static const EAT_GHOST : int = 4;
+		public static const BLUE_SIREN : int = 5;
 		
 		public static var allSoundsLoaded : Boolean = false;
 		
@@ -35,6 +37,9 @@ package Sound
 			allUrls.push(new URLRequest("http://15826.hosts.ma-cloud.nl/Leerjaar2/gapErwin/Retro_Game/bin/sounds/Wakaedit.mp3")); // wakka wakka Sound
 			allUrls.push(new URLRequest("http://15826.hosts.ma-cloud.nl/Leerjaar2/gapErwin/Retro_Game/bin/sounds/alarmEdit.mp3")); // Siren Sound
 			allUrls.push(new URLRequest("http://15826.hosts.ma-cloud.nl/Leerjaar2/gapErwin/Retro_Game/bin/sounds/PacmanDies.mp3")); // Pacman dies Sound
+			allUrls.push(new URLRequest("http://15826.hosts.ma-cloud.nl/Leerjaar2/gapErwin/Retro_Game/bin/sounds/PacmanEatingGhost.mp3")); // Eat Ghost Sound
+			allUrls.push(new URLRequest("http://15826.hosts.ma-cloud.nl/Leerjaar2/gapErwin/Retro_Game/bin/sounds/BlueGhostsMove.mp3")); // blueGhost Siren Sound
+			
 			
 			for (var i : int = 0; i < allUrls.length; i++) {
 				var sound : Sound = new Sound();
@@ -63,8 +68,15 @@ package Sound
 			if (sound != null){
 				if (currentSound != sound) {
 					currentSound = sound;
+					var trans : SoundTransform;
+					
 					if (sound == allSounds[SIREN]) {
-						var trans : SoundTransform = new SoundTransform(0.2);
+						musicChannel.stop();
+						trans = new SoundTransform(0.2);
+						musicChannel = sound.play(290, 99999,trans);
+					}else if (sound == allSounds[BLUE_SIREN]) {
+						musicChannel.stop();
+						trans = new SoundTransform(1);
 						musicChannel = sound.play(290, 99999,trans);
 					}else{
 						soundChannel = sound.play();
