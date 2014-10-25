@@ -107,7 +107,7 @@ package
 		{
 			updateScoreDisplay(c.score)
 		}
-		public function ateGhost(counter : int) :void {
+		public function ateGhost(counter : int) :int {
 			var scr : int = 200 * counter;
 			
 			if (counter == 3) {
@@ -115,8 +115,8 @@ package
 			}else if (counter == 4) {
 				scr = 1600;
 			}
-			trace(scr);
 			updateScoreDisplay(scr)
+			return scr;
 		}
 		private function updateScoreDisplay(scr : int):void {
 			

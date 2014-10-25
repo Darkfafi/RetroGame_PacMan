@@ -34,6 +34,7 @@ package Levels
 		
 		private var readyText : TextField = new TextField();
 		private var playerOneText : TextField = new TextField();
+		private var eatScoreText : TextField = new TextField();
 		
 		
 		public function Level() 
@@ -64,21 +65,24 @@ package Levels
 			readyText.text = "READY!";
 			playerOneText.text = "PLAYER ONE";
 			
-			var format : TextFormat = new TextFormat(null,15);
+			var format : TextFormat = new TextFormat(null, 15);
 			
 			format.font = "PressStart";
 			
 			readyText.setTextFormat(format);
 			readyText.defaultTextFormat = format;
 			playerOneText.setTextFormat(format);
+			eatScoreText.defaultTextFormat = format;
 			
 			playerOneText.embedFonts = true;
 			readyText.embedFonts = true;
+			eatScoreText.embedFonts = true;
 			
 			playerOneText.width = stage.stageWidth/2;
 			
 			readyText.textColor = 0xDDDD00;
 			playerOneText.textColor = 0x00Dfff;
+			eatScoreText.textColor = 0xDDDDDD;
 			
 			playerOneText.x = stage.stageWidth / 3;
 			playerOneText.y = stage.stageHeight / 2.6;
@@ -243,13 +247,38 @@ package Levels
 							if (ghostsEatenCounter == 4) {
 								SoundManager.playSound(SoundManager.SIREN);
 							}
-							ui.ateGhost(ghostsEatenCounter);
+							showScorePause(ui.ateGhost(ghostsEatenCounter));
 						}
 					}
 				}
 			}
 		}
+		private function showScorePause(scoreText : int) :void {
+			gameRunning = false;
+			addChild(eatScoreText);
+			
+			eatScoreText.x = TileSystem.player.x - 15;
+			eatScoreText.y = TileSystem.player.y;
+			
+			eatScoreText.text = scoreText.toString();
+			TileSystem.player.visible = false;
+			TileSystem.player.stopAnimAt();
+			for (var i : int = 0; i < tileSystem.ghosts.length; i++) {
+				tileSystem.ghosts[i].stopAnimAt(1);
+			}
+			setTimeout(resumeAfterScorePause,500)
+		}
 		
+		private function resumeAfterScorePause():void 
+		{
+			gameRunning = true;
+			TileSystem.player.visible = true;
+			TileSystem.player.playAnim();
+			removeChild(eatScoreText)
+			for (var i : int = 0; i < tileSystem.ghosts.length; i++) {
+				tileSystem.ghosts[i].playAnim();
+			}
+		}
 		private function pacmanKilled():void 
 		{
 			stage.addEventListener(Player.DEATH, deathAnimEnd);
@@ -258,7 +287,7 @@ package Levels
 				ui.updateLifeDisplay();
 			}
 			gameRunning = false;
-			TileSystem.player.stopAnim();
+			TileSystem.player.stopAnimAt(5);
 			SoundManager.stopSound();
 			setTimeout(playDeathAnim,1000);
 		}

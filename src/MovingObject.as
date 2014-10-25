@@ -45,6 +45,18 @@ package
 			removeEventListener(Event.ADDED_TO_STAGE, init);
 			///voer de drawobject functie hier uit411212
 		}
+		
+		public function stopAnimAt(frame : int = 99) :void {
+			if(frame != 99){
+				art.gotoAndStop(frame);
+			}else { art.stop(); }
+			art_playing = false;
+		}
+		public function playAnim() :void {
+			art_playing = true;
+			art.play();
+		}
+		
 		public function beginState() :void {
 			moving = false;
 			direction = 0;

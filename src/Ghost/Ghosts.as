@@ -107,6 +107,15 @@ package Ghost
 			//task
 			//else
 		}
+		override public function stopAnimAt(frame:int = 99):void 
+		{
+			super.stopAnimAt(frame);
+			deadGhostArt.stop();
+		}
+		override public function playAnim():void 
+		{
+			super.playAnim();
+		}
 		override public function beginState():void 
 		{
 			super.beginState();

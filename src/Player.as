@@ -82,11 +82,8 @@ package
 				art.gotoAndPlay(1);
 			}
 			if (moving == false && art_playing == false && direction != 0) {
-				stopAnim();
+				stopAnimAt(5);
 			}
-		}
-		public function stopAnim() :void {
-			art.gotoAndStop(5);
 		}
 		private function endAnime(e:Event):void 
 		{
