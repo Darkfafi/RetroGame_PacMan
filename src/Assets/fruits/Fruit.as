@@ -46,8 +46,8 @@ package Assets.fruits
 			timer = setTimeout(remove,6000); //<--- hoe lang het op het spel blijft bestaan.
 		}
 		
-		private function remove():void {
-			
+		public function remove():void {
+			clearTimeout(timer);
 			stage.removeChild(this);
 		}
 		

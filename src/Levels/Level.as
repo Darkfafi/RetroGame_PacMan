@@ -249,6 +249,7 @@ package Levels
 				if (stage.contains(fruit)) {
 					if(fruit.art.visible){
 						if (TileSystem.player.hitTestObject(fruit)) {
+							SoundManager.playSound(SoundManager.EAT_FRUIT);
 							ui.ateFruit(fruit.scoreWorth);
 							fruit.destroy();
 						}
@@ -316,6 +317,9 @@ package Levels
 		}
 		private function pacmanKilled():void 
 		{
+			if (stage.contains(fruit)) {
+				fruit.remove();
+			}
 			stage.addEventListener(Player.DEATH, deathAnimEnd);
 			ui.lives -= 1;
 			if (ui.lives < 0) {
