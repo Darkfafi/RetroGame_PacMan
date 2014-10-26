@@ -104,7 +104,8 @@ package
 				
 				background.addEventListener(BackGround.ANIMATION_END, endLevel);
 				background.endAnim();
-			}if (c.score == 50) {
+			}
+			if (c.score == 50) {
 				for (i = ghosts.length - 1; i >= 0; i--) {
 					ghosts[i].turnBackToNormal();
 					ghosts[i].ghostTurnsEatable(6600);

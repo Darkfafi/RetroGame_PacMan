@@ -36,6 +36,7 @@ package Levels
 		private var playerOneText : TextField = new TextField();
 		private var eatScoreText : TextField = new TextField();
 		
+		private var level : int;
 		
 		public function Level() 
 		{
@@ -51,7 +52,7 @@ package Levels
 		private function begingGame():void 
 		{
 			SoundManager.stopSound();
-			
+			level = 1;
 			stage.addEventListener(TileSystem.NEXT_LEVEN, nextLevel);
 			stage.addEventListener(TileSystem.GHOSTS_EATABLE, ghostsEatenCounterSet);
 			stage.addEventListener(Ghosts.TURNED_BACK, checkAllGhostStats);
@@ -59,20 +60,20 @@ package Levels
 			SoundManager.playSound(SoundManager.START_SOUND);
 			timerCountdown = new Timer(2200,2);
 			ui = new UI();
-			
 			startLevel();
 			
 			readyText.text = "READY!";
 			playerOneText.text = "PLAYER ONE";
 			
 			var format : TextFormat = new TextFormat(null, 15);
-			
+			var scoreFormat : TextFormat = new TextFormat(null, 11);
 			format.font = "PressStart";
+			scoreFormat.font = "PressStart";
 			
 			readyText.setTextFormat(format);
 			readyText.defaultTextFormat = format;
 			playerOneText.setTextFormat(format);
-			eatScoreText.defaultTextFormat = format;
+			eatScoreText.defaultTextFormat = scoreFormat;
 			
 			playerOneText.embedFonts = true;
 			readyText.embedFonts = true;
@@ -82,7 +83,7 @@ package Levels
 			
 			readyText.textColor = 0xDDDD00;
 			playerOneText.textColor = 0x00Dfff;
-			eatScoreText.textColor = 0xDDDDDD;
+			eatScoreText.textColor = 0x00bfff;
 			
 			playerOneText.x = stage.stageWidth / 3;
 			playerOneText.y = stage.stageHeight / 2.6;
@@ -104,7 +105,6 @@ package Levels
 					}
 				}
 				if (counter == 4) {
-					SoundManager.stopSound();
 					SoundManager.playSound(SoundManager.SIREN);
 				}
 			}
@@ -118,6 +118,8 @@ package Levels
 		
 		private function startLevel() :void {
 			gameRunning = false;
+			
+			ui.updatefruitDisplay(level);
 			
 			if (stage.contains(tileSystem)) {
 				removeChild(tileSystem);
@@ -138,6 +140,7 @@ package Levels
 		public function nextLevel(e : Event) :void {
 			removeEventListener(Event.ENTER_FRAME, loop);
 			tileSystem.destroy();
+			level += 1;
 			startLevel();
 		}
 		private function gameOver() :void {
@@ -242,22 +245,24 @@ package Levels
 							pacmanKilled();
 						}else if (ghost.eatAble && !ghost.deadGhost) {
 							ghost.eatGhost();
+							ghost.visible = false;
 							SoundManager.playSound(SoundManager.EAT_GHOST);
 							ghostsEatenCounter += 1;
-							if (ghostsEatenCounter == 4) {
-								SoundManager.playSound(SoundManager.SIREN);
-							}
 							showScorePause(ui.ateGhost(ghostsEatenCounter));
 						}
 					}
 				}
+			}
+			if (ghostsEatenCounter == 4) {
+				SoundManager.playSound(SoundManager.SIREN);
+				ghostsEatenCounter = 0;
 			}
 		}
 		private function showScorePause(scoreText : int) :void {
 			gameRunning = false;
 			addChild(eatScoreText);
 			
-			eatScoreText.x = TileSystem.player.x - 15;
+			eatScoreText.x = TileSystem.player.x - 10;
 			eatScoreText.y = TileSystem.player.y;
 			
 			eatScoreText.text = scoreText.toString();
@@ -274,8 +279,11 @@ package Levels
 			gameRunning = true;
 			TileSystem.player.visible = true;
 			TileSystem.player.playAnim();
-			removeChild(eatScoreText)
+			if(contains(eatScoreText)){
+				removeChild(eatScoreText)
+			}
 			for (var i : int = 0; i < tileSystem.ghosts.length; i++) {
+				tileSystem.ghosts[i].visible = true;
 				tileSystem.ghosts[i].playAnim();
 			}
 		}
@@ -288,6 +296,9 @@ package Levels
 			}
 			gameRunning = false;
 			TileSystem.player.stopAnimAt(5);
+			for (var i : int = 0; i < tileSystem.ghosts.length; i++) {
+				tileSystem.ghosts[i].stopAnimAt();
+			}
 			SoundManager.stopSound();
 			setTimeout(playDeathAnim,1000);
 		}

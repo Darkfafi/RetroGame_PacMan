@@ -68,15 +68,15 @@ package Sound
 			if (sound != null){
 				if (currentSound != sound) {
 					currentSound = sound;
-					var trans : SoundTransform;
+					var trans : SoundTransform = new SoundTransform();
 					
 					if (sound == allSounds[SIREN]) {
 						musicChannel.stop();
-						trans = new SoundTransform(0.2);
+						trans.volume = 0.2;
 						musicChannel = sound.play(290, 99999,trans);
 					}else if (sound == allSounds[BLUE_SIREN]) {
 						musicChannel.stop();
-						trans = new SoundTransform(1);
+						trans.volume = 1;
 						musicChannel = sound.play(290, 99999,trans);
 					}else{
 						soundChannel = sound.play();

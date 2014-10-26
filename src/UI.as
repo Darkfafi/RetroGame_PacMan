@@ -1,5 +1,6 @@
 package  
 {
+	import Assets.fruits.Fruit;
 	import Events.CookieEvent;
 	import flash.display.MovieClip;
 	import flash.display.Sprite;
@@ -27,6 +28,7 @@ package
 		private var _highScoreDisplay : TextField = new TextField();
 		
 		private var livesDisplayObjects : Array = [];
+		private var fruitList : Array = [Fruit1,Fruit2];
 		private var fruitsDisplayObjects : Array = []; // <-- for eatable fruits that give extra score right down origenal pacman
 		
 		private var innerHighscore : SharedObject;
@@ -128,10 +130,8 @@ package
 				updateLifeDisplay();
 			}
 			if (_score > hightscore) {
-				//innerHighscore.data.score = _score;
-				hightscore = _score;//innerHighscore.data.score;
+				hightscore = _score;
 				_highScoreDisplay.text = hightscore.toString();
-				//end game flush gebruiken om highscore op te slaan.
 			}
 		}
 		public function updateLifeDisplay():void {
@@ -145,11 +145,12 @@ package
 			for (var i : int = 0; i < _lives; i++) {
 				
 				var liveDis : MovieClip = new PacmanFull();
-				liveDis.gotoAndStop(4);
-				liveDis.scaleX = 0.4;
-				liveDis.scaleY = 0.4;
+				liveDis.gotoAndStop(3);
+				liveDis.scaleX = 0.35;
+				liveDis.scaleY = 0.35;
+				liveDis.rotation = 180;
 				addChild(liveDis);
-				liveDis.x = (i * 25) + 30;
+				liveDis.x = (i * 30) + 35;
 				liveDis.y = stage.stageHeight - 15;
 				livesDisplayObjects.push(liveDis);
 			}
@@ -157,6 +158,25 @@ package
 				stage.removeEventListener(Player.EAT_COOKIE, ateCookie);
 				innerHighscore.data.score = hightscore;
 				innerHighscore.flush();
+			}
+		}
+		
+		public function updatefruitDisplay(level : int) :void {
+			if(level <= fruitList.length){
+				for (var l : int = 0; l < fruitsDisplayObjects.length; l++) {
+					removeChild(fruitsDisplayObjects[l]);  //<--- maakt display schoon
+				}
+				
+				fruitsDisplayObjects = [];
+				
+				for (var i : int = 0; i < level; i++) {
+					trace(fruitList[i]);
+					var fruitDis : MovieClip = new fruitList[i] as MovieClip;
+					addChild(fruitDis);
+					fruitDis.x = 448 - 35 - (i * 30) ;
+					fruitDis.y = 576 - 15;
+					fruitsDisplayObjects.push(fruitDis);
+				}
 			}
 		}
 		
