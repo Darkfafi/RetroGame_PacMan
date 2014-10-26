@@ -115,6 +115,9 @@ package Ghost
 		override public function playAnim():void 
 		{
 			super.playAnim();
+			if (!deadGhost) {
+				deadGhostArt.play();
+			}
 		}
 		override public function beginState():void 
 		{

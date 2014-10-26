@@ -8,6 +8,7 @@ package
 	import flash.net.SharedObject;
 	import flash.text.TextField;
 	import flash.text.TextFormat;
+	import flash.utils.setTimeout;
 	
 	//Test
 	import flash.system.fscommand;
@@ -22,6 +23,7 @@ package
 		
 		public var _uiFont : TextFormat = new TextFormat();
 		
+		private var _oneUp : TextField = new TextField();
 		private var _scoreDisplay : TextField = new TextField();
 		
 		private var _highScoreText : TextField = new TextField();
@@ -57,10 +59,12 @@ package
 			_scoreDisplay.defaultTextFormat = _uiFont;
 			_highScoreDisplay.defaultTextFormat = _uiFont;
 			_highScoreText.defaultTextFormat = _uiFont;
+			_oneUp.defaultTextFormat = _uiFont;
 			
 			_highScoreText.text = "HIGH SCORE:";
 			
 			_scoreDisplay.text = "SCORE : " + "00";
+			_oneUp.text = "1UP";
 			
 			if(innerHighscore.data){
 				hightscore = innerHighscore.data.score;
@@ -70,6 +74,7 @@ package
 				_highScoreDisplay.text = hightscore.toString();
 			}
 			
+			addChild(_oneUp);
 			addChild(_scoreDisplay);
 			addChild(_highScoreText);
 			addChild(_highScoreDisplay);
@@ -86,11 +91,16 @@ package
 			_scoreDisplay.x = 20;
 			_scoreDisplay.y = 20;
 			
+			_oneUp.x = _scoreDisplay.x;
+			_oneUp.y = _scoreDisplay.y - 15;
+			
 			_highScoreText.x = _scoreDisplay.x + 160;
 			_highScoreText.width = stage.stageWidth / 2;
 			
 			_highScoreDisplay.x = _highScoreText.x + 40;
 			_highScoreDisplay.y = _scoreDisplay.y;
+			
+			oneUpAnimate();
 			
 			updateLifeDisplay();
 			lives -= 1;
@@ -104,6 +114,13 @@ package
 			_scoreDisplay.embedFonts = true;
 			_highScoreDisplay.embedFonts = true;
 			_highScoreText.embedFonts = true;
+			_oneUp.embedFonts = true;
+		}
+		private function oneUpAnimate():void {
+			if (_oneUp.visible) {
+				_oneUp.visible = false;
+			}else { _oneUp.visible = true; }
+			setTimeout(oneUpAnimate, 500);
 		}
 		private function ateCookie(c:CookieEvent):void 
 		{

@@ -318,7 +318,9 @@ package Levels
 		private function pacmanKilled():void 
 		{
 			if (stage.contains(fruit)) {
-				fruit.remove();
+				if(fruit.art.visible){
+					fruit.remove();
+				}
 			}
 			stage.addEventListener(Player.DEATH, deathAnimEnd);
 			ui.lives -= 1;
