@@ -37,7 +37,7 @@ package Sound
 			
 			allUrls.push(new URLRequest("http://15826.hosts.ma-cloud.nl/Leerjaar2/gapErwin/Retro_Game/bin/sounds/GameStart.mp3")); // Start Sound
 			allUrls.push(new URLRequest("http://15826.hosts.ma-cloud.nl/Leerjaar2/gapErwin/Retro_Game/bin/sounds/Wakaedit.mp3")); // wakka wakka Sound
-			allUrls.push(new URLRequest("http://15826.hosts.ma-cloud.nl/Leerjaar2/gapErwin/Retro_Game/bin/sounds/alarmEdit.mp3")); // Siren Sound
+			allUrls.push(new URLRequest("http://15826.hosts.ma-cloud.nl/Leerjaar2/gapErwin/Retro_Game/bin/sounds/alarmEditAnders.mp3")); // Siren Sound
 			allUrls.push(new URLRequest("http://15826.hosts.ma-cloud.nl/Leerjaar2/gapErwin/Retro_Game/bin/sounds/PacmanDies.mp3")); // Pacman dies Sound
 			allUrls.push(new URLRequest("http://15826.hosts.ma-cloud.nl/Leerjaar2/gapErwin/Retro_Game/bin/sounds/PacmanEatingGhost.mp3")); // Eat Ghost Sound
 			allUrls.push(new URLRequest("http://15826.hosts.ma-cloud.nl/Leerjaar2/gapErwin/Retro_Game/bin/sounds/BlueGhostsMove.mp3")); // blueGhost Siren Sound
@@ -77,7 +77,7 @@ package Sound
 					if (sound == allSounds[SIREN]) {
 						musicChannel.stop();
 						trans.volume = 0.2;
-						musicChannel = sound.play(290, 99999,trans);
+						musicChannel = sound.play(30, 99999,trans);
 					}else if (sound == allSounds[BLUE_SIREN]) {
 						musicChannel.stop();
 						trans.volume = 1;
