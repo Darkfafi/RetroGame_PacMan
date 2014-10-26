@@ -1,5 +1,9 @@
 package Levels 
 {
+	import Assets.fruits.Cherry;
+	import Assets.fruits.Fruit;
+	import Assets.fruits.Strawberry;
+	import flash.display.DisplayObject;
 	import flash.display.MovieClip;
 	import flash.events.Event;
 	import flash.events.TimerEvent;
@@ -37,6 +41,8 @@ package Levels
 		private var eatScoreText : TextField = new TextField();
 		
 		private var level : int;
+		private var fruitList : Array = [Cherry, Strawberry];
+		private var fruit : Fruit = new Fruit();
 		
 		public function Level() 
 		{
@@ -52,9 +58,12 @@ package Levels
 		private function begingGame():void 
 		{
 			SoundManager.stopSound();
+			
 			level = 1;
+			
 			stage.addEventListener(TileSystem.NEXT_LEVEN, nextLevel);
 			stage.addEventListener(TileSystem.GHOSTS_EATABLE, ghostsEatenCounterSet);
+			stage.addEventListener(TileSystem.SPAWN_FRUIT, spawnFruit);
 			stage.addEventListener(Ghosts.TURNED_BACK, checkAllGhostStats);
 			
 			SoundManager.playSound(SoundManager.START_SOUND);
@@ -93,6 +102,15 @@ package Levels
 			
 			addChild(playerOneText);
 			addChild(readyText);
+		}
+		
+		private function spawnFruit(e:Event):void {
+			if (level <= fruitList.length) {
+				fruit = new fruitList[level - 1];
+				fruit.x = (16 * 14);
+				fruit.y = (16 * 21) - 8;
+				stage.addChild(fruit);
+			}
 		}
 		
 		private function checkAllGhostStats(e:Event):void {
@@ -147,6 +165,7 @@ package Levels
 			removeEventListener(Event.ENTER_FRAME, loop);
 			stage.removeEventListener(TileSystem.NEXT_LEVEN, nextLevel);
 			stage.removeEventListener(TileSystem.GHOSTS_EATABLE, ghostsEatenCounterSet);
+			stage.removeEventListener(TileSystem.SPAWN_FRUIT, spawnFruit);
 			stage.removeEventListener(Ghosts.TURNED_BACK, checkAllGhostStats);
 			
 			readyText.text = "Game Over";
@@ -226,6 +245,14 @@ package Levels
 			if (gameRunning) {
 				if(TileSystem.player != null){
 					TileSystem.player.update(e);
+				}
+				if (stage.contains(fruit)) {
+					if(fruit.art.visible){
+						if (TileSystem.player.hitTestObject(fruit)) {
+							ui.ateFruit(fruit.scoreWorth);
+							fruit.destroy();
+						}
+					}
 				}
 				for (var i : uint = 0; i < tileSystem.ghosts.length; i++) {
 					tileSystem.ghosts[i].update(e);

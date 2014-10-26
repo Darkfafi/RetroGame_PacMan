@@ -10,7 +10,8 @@ package Assets.fruits
 		public function Cherry() 
 		{
 			super();
-			art =  new Fruit1; 
+			art = new Fruit1; 
+			scoreWorth = 100;
 		}
 		
 	}

@@ -30,6 +30,7 @@ package
 		
 		public static const NEXT_LEVEN : String = "nextLevel";
 		public static const GHOSTS_EATABLE : String = "ghostsTurnedEatable";
+		public static const SPAWN_FRUIT : String = "spawnFruit";
 		
 		public var cookies : Array = [];
 		
@@ -104,6 +105,8 @@ package
 				
 				background.addEventListener(BackGround.ANIMATION_END, endLevel);
 				background.endAnim();
+			}else if (cookies.length == 230 - 70 || cookies.length == 230 - 170) {
+				dispatchEvent(new Event(SPAWN_FRUIT,true));
 			}
 			if (c.score == 50) {
 				for (i = ghosts.length - 1; i >= 0; i--) {

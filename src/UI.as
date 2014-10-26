@@ -117,9 +117,15 @@ package
 			}else if (counter == 4) {
 				scr = 1600;
 			}
-			updateScoreDisplay(scr)
+			updateScoreDisplay(scr);
 			return scr;
 		}
+		
+		public function ateFruit(scoreValue : int) :void {
+			updateScoreDisplay(scoreValue);
+			trace(scoreValue);
+		}
+		
 		private function updateScoreDisplay(scr : int):void {
 			
 			_score += scr;

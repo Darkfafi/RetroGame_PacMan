@@ -11,6 +11,7 @@ package Assets.fruits
 		{
 			super();
 			art = new Fruit2;
+			scoreWorth = 300;
 		}
 		
 	}
