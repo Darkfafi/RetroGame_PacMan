@@ -9,6 +9,7 @@ package
 	import flash.text.TextField;
 	import flash.text.TextFormat;
 	import flash.utils.setTimeout;
+	import Sound.SoundManager;
 	
 	//Test
 	import flash.system.fscommand;
@@ -30,7 +31,7 @@ package
 		private var _highScoreDisplay : TextField = new TextField();
 		
 		private var livesDisplayObjects : Array = [];
-		private var fruitList : Array = [Fruit1,Fruit2];
+		private var fruitList : Array = [Fruit1,Fruit2,Fruit3,Fruit3,Fruit4,Fruit4];
 		private var fruitsDisplayObjects : Array = []; // <-- for eatable fruits that give extra score right down origenal pacman
 		
 		private var innerHighscore : SharedObject;
@@ -150,6 +151,7 @@ package
 			
 			if (_score % 10000 == 0) {
 				lives += 1;
+				SoundManager.playSound(SoundManager.LIVES_ONE_UP);
 				updateLifeDisplay();
 			}
 			if (_score > hightscore) {

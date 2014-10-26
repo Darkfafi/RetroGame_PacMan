@@ -1,7 +1,9 @@
 package Levels 
 {
+	import Assets.fruits.Apple;
 	import Assets.fruits.Cherry;
 	import Assets.fruits.Fruit;
+	import Assets.fruits.Orange;
 	import Assets.fruits.Strawberry;
 	import flash.display.DisplayObject;
 	import flash.display.MovieClip;
@@ -41,7 +43,7 @@ package Levels
 		private var eatScoreText : TextField = new TextField();
 		
 		private var level : int;
-		private var fruitList : Array = [Cherry, Strawberry];
+		private var fruitList : Array = [Cherry, Strawberry, Orange,Orange,Apple,Apple];
 		private var fruit : Fruit = new Fruit();
 		
 		public function Level() 
@@ -107,6 +109,11 @@ package Levels
 		private function spawnFruit(e:Event):void {
 			if (level <= fruitList.length) {
 				fruit = new fruitList[level - 1];
+				fruit.x = (16 * 14);
+				fruit.y = (16 * 21) - 8;
+				stage.addChild(fruit);
+			}else if (level > fruitList.length) {
+				fruit = new fruitList[fruitList.length - 1];
 				fruit.x = (16 * 14);
 				fruit.y = (16 * 21) - 8;
 				stage.addChild(fruit);

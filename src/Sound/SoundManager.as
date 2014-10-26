@@ -20,6 +20,7 @@ package Sound
 		public static const EAT_GHOST : int = 4;
 		public static const BLUE_SIREN : int = 5;
 		public static const EAT_FRUIT : int = 6;
+		public static const LIVES_ONE_UP : int = 7;
 		
 		public static var allSoundsLoaded : Boolean = false;
 		
@@ -41,6 +42,7 @@ package Sound
 			allUrls.push(new URLRequest("http://15826.hosts.ma-cloud.nl/Leerjaar2/gapErwin/Retro_Game/bin/sounds/PacmanEatingGhost.mp3")); // Eat Ghost Sound
 			allUrls.push(new URLRequest("http://15826.hosts.ma-cloud.nl/Leerjaar2/gapErwin/Retro_Game/bin/sounds/BlueGhostsMove.mp3")); // blueGhost Siren Sound
 			allUrls.push(new URLRequest("http://15826.hosts.ma-cloud.nl/Leerjaar2/gapErwin/Retro_Game/bin/sounds/PacmanEatingCherry.mp3")); // eating Fruit Sound
+			allUrls.push(new URLRequest("http://15826.hosts.ma-cloud.nl/Leerjaar2/gapErwin/Retro_Game/bin/sounds/PacmanExtraLive.mp3")); // life up Sound
 			
 			
 			for (var i : int = 0; i < allUrls.length; i++) {
